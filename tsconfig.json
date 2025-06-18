@@ -1,17 +1,10 @@
 {
+  "extends": "@tsconfig/node-lts/tsconfig.json",
   "compilerOptions": {
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "target": "esnext",
     "verbatimModuleSyntax": true,
     "allowJs": true,
     "resolveJsonModule": true,
-    "moduleDetection": "force",
-    "strict": true,
     "noUncheckedIndexedAccess": true,
-    "moduleResolution": "Bundler",
-    "module": "esnext",
     "noEmit": true,
-    "lib": ["ESNext"]
   }
 }
