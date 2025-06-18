@@ -1,7 +1,7 @@
 #!/bin/env node
 
 import git from "isomorphic-git";
-import http from "isomorphic-git/http/node";
+import http from "isomorphic-git/http/node/index.js";
 import fs from "fs";
 
 await git.clone({
