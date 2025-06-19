@@ -69,8 +69,8 @@ results
 authors
     .sort((a, b) => {
         if (a.commits !== b.commits) return b.commits - a.commits
-        if (a.name < b.name) return -1
-        if (a.name > b.name) return 1
+        if (a.name.toLowerCase() < b.name.toLowerCase()) return -1
+        if (a.name.toLowerCase() > b.name.toLowerCase()) return 1
         return 0
     })
     .splice(50) // Keep only top 50 authors
