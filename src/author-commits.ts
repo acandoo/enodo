@@ -4,7 +4,7 @@ import { join } from 'node:path'
 import { tmpdir } from 'node:os'
 
 import git from 'isomorphic-git'
-import http from 'isomorphic-git/http/node/index.js' // TODO file issue upstream to fix their package.json
+import http from 'isomorphic-git/http/node' // TODO file issue upstream to fix their package.json
 
 import {
     BarController,

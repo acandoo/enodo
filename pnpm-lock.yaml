@@ -8,6 +8,9 @@ patchedDependencies:
   '@tsconfig/node-lts':
     hash: 7f06873de95a70516080f39d7c37abbed61bc0938e70c075ef2cdae25829c3f2
     path: patches/@tsconfig__node-lts.patch
+  isomorphic-git:
+    hash: 0dfc2214d81db0c5c5f158623b36baeb90513dd91bb05f11effee77c5206e493
+    path: patches/isomorphic-git.patch
 
 importers:
 
@@ -21,7 +24,7 @@ importers:
         version: 14.0.0
       isomorphic-git:
         specifier: ^1.31.0
-        version: 1.31.0
+        version: 1.31.0(patch_hash=0dfc2214d81db0c5c5f158623b36baeb90513dd91bb05f11effee77c5206e493)
       skia-canvas:
         specifier: ^2.0.2
         version: 2.0.2
@@ -2156,7 +2159,7 @@ snapshots:
 
   isexe@2.0.0: {}
 
-  isomorphic-git@1.31.0:
+  isomorphic-git@1.31.0(patch_hash=0dfc2214d81db0c5c5f158623b36baeb90513dd91bb05f11effee77c5206e493):
     dependencies:
       async-lock: 1.4.1
       clean-git-ref: 2.0.1

@@ -1,0 +1,25 @@
+diff --git a/package.json b/package.json
+index 29cdb826b24acd2f2ed333445e08e0bba2c24b66..9735a30a9fc2a8b55e49febd14bfca060ec5f68b 100644
+--- a/package.json
++++ b/package.json
+@@ -6,6 +6,20 @@
+   "typings": "./index.d.ts",
+   "main": "./index.cjs",
+   "module": "./index.js",
++  "exports": {
++    ".": {
++      "import": "./index.cjs",
++      "require": "./index.cjs"
++    },
++    "./http/node": {
++      "import": "./http/node/index.js",
++      "require": "./http/node/index.cjs"
++    },
++    "./http/web": {
++      "import": "./http/web/index.js",
++      "require": "./http/web/index.cjs"
++    }
++  },
+   "unpkg": "./index.umd.min.js",
+   "bin": {
+     "isogit": "./cli.cjs"
