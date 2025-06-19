@@ -1,6 +1,9 @@
+import fs from 'node:fs'
+import fsp from 'node:fs/promises'
+
 import git from 'isomorphic-git'
 import http from 'isomorphic-git/http/node/index.js' // TODO file issue upstream to fix their package.json
-import fs from 'node:fs'
+
 import {
     BarController,
     BarElement,
@@ -11,11 +14,9 @@ import {
     Title
 } from 'chart.js'
 import { Canvas } from 'skia-canvas'
-import fsp from 'node:fs/promises'
 
 export default async function createAuthorChart(repo: string, output: string) {
     const TEMP_DIRECTORY = './repo'
-
     type Author = {
         name: string
         email: string
