@@ -18,3 +18,5 @@ program
     })
 
 program.parse()
+
+export { createAuthorChart }
