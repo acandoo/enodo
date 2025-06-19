@@ -45,12 +45,12 @@ await git.clone({
     singleBranch: true,
 })
 
+console.log('Cloned!')
+
 const results = await git.log({
     fs,
     dir: DIRECTORY,
 })
-
-console.log('Cloned!')
 
 results
     .map((entry) => entry.commit.author)
