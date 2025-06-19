@@ -2,7 +2,7 @@
 
 import git from 'isomorphic-git'
 import http from 'isomorphic-git/http/node/index.js'
-import fs from 'fs'
+import fs from 'node:fs'
 
 const URL = 'https://github.com/octocat/Hello-World'
 const DIRECTORY = process.argv[2] || './repo'
