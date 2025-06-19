@@ -66,8 +66,14 @@ results
         }
     })
 
-authors.sort((a, b) => b.commits - a.commits).splice(50) // Keep only top 50 authors
-// TODO further sort authors by name if commits are equal
+authors
+    .sort((a, b) => {
+        if (a.commits !== b.commits) return b.commits - a.commits
+        if (a.name < b.name) return -1
+        if (a.name > b.name) return 1
+        return 0
+    })
+    .splice(50) // Keep only top 50 authors
 
 // Create a horizontal bar chart using Chart.js
 
