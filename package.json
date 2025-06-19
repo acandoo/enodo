@@ -1,7 +1,7 @@
 {
     "name": "git-visualizer",
     "type": "module",
-    "version": "1.0.0",
+    "version": "0.0.1",
     "description": "",
     "exports": "./dist/index.js",
     "engines": {
