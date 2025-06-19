@@ -1,0 +1,17 @@
+diff --git a/index.cjs b/index.cjs
+index 97df9d76b4f6b4df60eb7f9de6e579a194339477..14ad57a4a054a8819e65e7ff7beea257194a08e8 100644
+--- a/index.cjs
++++ b/index.cjs
+@@ -764,9 +764,12 @@ class GitIndex {
+       entry.path = reader.toString('utf8', pathlength);
+ 
+       // Prevent malicious paths like "..\foo"
++
++      /*
+       if (entry.path.includes('..\\') || entry.path.includes('../')) {
+         throw new UnsafeFilepathError(entry.path)
+       }
++      */
+ 
+       // The next bit is awkward. We expect 1 to 8 null characters
+       // such that the total size of the entry is a multiple of 8 bits.
