@@ -8,7 +8,7 @@ import {
     Chart,
     LinearScale,
     SubTitle,
-    Title,
+    Title
 } from 'chart.js'
 import { Canvas } from 'skia-canvas'
 import fsp from 'node:fs/promises'
@@ -42,14 +42,14 @@ await git.clone({
         }
     },
     onMessage: (message) => console.log(`Message: ${message}`),
-    singleBranch: true,
+    singleBranch: true
 })
 
 console.log('Cloned!')
 
 const results = await git.log({
     fs,
-    dir: DIRECTORY,
+    dir: DIRECTORY
 })
 
 results
@@ -86,7 +86,7 @@ Chart.register([
     CategoryScale,
     LinearScale,
     Title,
-    SubTitle,
+    SubTitle
 ])
 
 const canvas = new Canvas(width, height)
@@ -97,28 +97,28 @@ const chart = new Chart(canvas, {
         datasets: [
             {
                 label: 'Commits',
-                data: authors.map((author) => author.commits),
-            },
-        ],
+                data: authors.map((author) => author.commits)
+            }
+        ]
     },
     options: {
         indexAxis: 'y',
         plugins: {
             title: {
                 display: true,
-                text: 'Commits per Author (top 50)',
+                text: 'Commits per Author (top 50)'
             },
             subtitle: {
                 display: true,
-                text: `Repository: ${URL}`,
-            },
+                text: `Repository: ${URL}`
+            }
         },
         scales: {
             y: {
-                beginAtZero: true,
-            },
-        },
-    },
+                beginAtZero: true
+            }
+        }
+    }
 })
 
 const pngBuffer = await canvas.toBuffer('png', { matte: 'white' })
