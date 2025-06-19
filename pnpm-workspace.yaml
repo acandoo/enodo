@@ -2,4 +2,5 @@ onlyBuiltDependencies:
   - esbuild
   - skia-canvas
 patchedDependencies:
-  isomorphic-git: patches/isomorphic-git.patch
+  isomorphic-git: /home/austin/git-visualizer/patches/isomorphic-git.patch
+  '@tsconfig/node-lts': patches/@tsconfig__node-lts.patch
