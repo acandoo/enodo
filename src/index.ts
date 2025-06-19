@@ -22,9 +22,13 @@ await git.clone({
     url: URL,
     onProgress: (event) => {
         if (event.loaded) {
+            if (event.phase === 'Analyzing workdir') {
+                console.log(`${event.phase}: ${event.loaded}`)
+                return
+            }
             // I have no clue why but the total is double the actual size
             console.log(
-                `${event.phase}: ${Math.round((event.loaded / event.total) * 50)}%`
+                `${event.phase}: ${Math.round((event.loaded / event.total) * 100)}%`
             )
         }
     },
