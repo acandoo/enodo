@@ -7,7 +7,7 @@ program.name(pkg.name).description(pkg.description).version(pkg.version)
 program
     .command('author-commits')
     .description('Generate a commits per author chart')
-    .argument('<repo>', 'Git repository URL') // TODO add support for local path
+    .argument('<repo>', 'Repository URL or path')
     .option(
         '-o, --output <file>',
         'Output PNG file',

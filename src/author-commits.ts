@@ -18,44 +18,62 @@ import {
 import { Canvas } from 'skia-canvas'
 
 export default async function createAuthorChart(repo: string, output: string) {
-    const TEMP_DIRECTORY = await fsp.mkdtemp(join(tmpdir(), 'repo-'))
+    // Validate output file is a PNG
+    if (!output.endsWith('.png')) {
+        throw new Error('Output file must be a PNG')
+    }
+
+    // Check if repo is a valid URL or a local path
+    let dir: string
+    if (URL.canParse(repo) !== true) {
+        dir = repo
+        if (!fs.existsSync(dir)) {
+            throw new Error(`Directory ${dir} does not exist`)
+        }
+        if (!fs.existsSync(join(dir, '.git'))) {
+            throw new Error(`Directory ${dir} is not a Git repository`)
+        }
+    } else {
+        // If a URL, clone the repo to a temp directory
+        dir = await fsp.mkdtemp(join(tmpdir(), 'repo-'))
+
+        await git.clone({
+            fs,
+            http,
+            dir,
+            url: repo,
+            onProgress: (event) => {
+                if (event.loaded) {
+                    if (event.phase === 'Analyzing workdir') {
+                        console.log(`${event.phase}: ${event.loaded}`)
+                        return
+                    }
+                    console.log(
+                        `${event.phase}: ${Math.round((event.loaded / event.total) * 100)}%`
+                    )
+                }
+            },
+            onMessage: (message) => console.log(`Message: ${message}`),
+            singleBranch: true
+        })
+
+        console.log('Cloned!')
+    }
+
+    // Get all commits
+    const results = await git.log({
+        fs,
+        dir
+    })
 
     type Author = {
         name: string
         email: string
         commits: number
     }
-
     const authors: Author[] = []
 
-    await git.clone({
-        fs,
-        http,
-        dir: TEMP_DIRECTORY,
-        url: repo,
-        onProgress: (event) => {
-            if (event.loaded) {
-                if (event.phase === 'Analyzing workdir') {
-                    console.log(`${event.phase}: ${event.loaded}`)
-                    return
-                }
-                // I have no clue why but the total is double the actual size
-                console.log(
-                    `${event.phase}: ${Math.round((event.loaded / event.total) * 100)}%`
-                )
-            }
-        },
-        onMessage: (message) => console.log(`Message: ${message}`),
-        singleBranch: true
-    })
-
-    console.log('Cloned!')
-
-    const results = await git.log({
-        fs,
-        dir: TEMP_DIRECTORY
-    })
-
+    // Count commits per author
     results
         .map((entry) => entry.commit.author)
         .forEach((author) => {
@@ -74,6 +92,7 @@ export default async function createAuthorChart(repo: string, output: string) {
             }
         })
 
+    // Sort authors by number of commits and name, descending
     authors
         .sort((a, b) => {
             if (a.commits !== b.commits) return b.commits - a.commits
@@ -83,7 +102,7 @@ export default async function createAuthorChart(repo: string, output: string) {
         })
         .splice(50) // Keep only top 50 authors
 
-    // Create a horizontal bar chart using Chart.js
+    // Create a horizontal bar chart
 
     const width = 600
     const height = 1080
@@ -129,6 +148,7 @@ export default async function createAuthorChart(repo: string, output: string) {
         }
     })
 
+    // Save chart as PNG
     const pngBuffer = await canvas.toBuffer('png', { matte: 'white' })
     await fsp.writeFile(output, pngBuffer)
     chart.destroy()
