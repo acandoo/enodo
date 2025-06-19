@@ -3,13 +3,19 @@
     "type": "module",
     "version": "0.0.1",
     "description": "",
-    "exports": "./dist/index.js",
+    "bin": {
+        "git-visualize": "./dist/index.js"
+    },
+    "exports": {
+        "types": "./dist/index.d.ts",
+        "import": "./dist/index.js"
+    },
     "engines": {
         "node": ">=18"
     },
     "scripts": {
         "dev": "tsx src/index.ts",
-        "build": "esbuild src/index.ts --minify --platform=node --outfile=dist/index.js --format=esm",
+        "build": "pkgroll --minify",
         "start": "node dist/index.js",
         "preinstall": "npx only-allow pnpm",
         "format": "prettier . --write"
@@ -23,10 +29,10 @@
         "@eslint/js": "^9.29.0",
         "@tsconfig/node-lts": "^22.0.1",
         "@types/node": "^24.0.3",
-        "esbuild": "^0.25.5",
         "eslint": "^9.29.0",
         "eslint-config-prettier": "^10.1.5",
         "globals": "^16.2.0",
+        "pkgroll": "^2.13.1",
         "prettier": "3.5.3",
         "tsx": "^4.20.3",
         "typescript": "^5.8.3",
