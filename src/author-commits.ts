@@ -1,5 +1,7 @@
 import fs from 'node:fs'
 import fsp from 'node:fs/promises'
+import { join } from 'node:path'
+import { tmpdir } from 'node:os'
 
 import git from 'isomorphic-git'
 import http from 'isomorphic-git/http/node/index.js' // TODO file issue upstream to fix their package.json
@@ -16,7 +18,8 @@ import {
 import { Canvas } from 'skia-canvas'
 
 export default async function createAuthorChart(repo: string, output: string) {
-    const TEMP_DIRECTORY = './repo'
+    const TEMP_DIRECTORY = await fsp.mkdtemp(join(tmpdir(), 'repo-'))
+
     type Author = {
         name: string
         email: string
