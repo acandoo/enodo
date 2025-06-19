@@ -1,10 +1,10 @@
 {
-  "extends": "@tsconfig/node-lts/tsconfig.json",
-  "compilerOptions": {
-    "verbatimModuleSyntax": true,
-    "allowJs": true,
-    "resolveJsonModule": true,
-    "noUncheckedIndexedAccess": true,
-    "noEmit": true,
-  }
+    "extends": "@tsconfig/node-lts/tsconfig.json",
+    "compilerOptions": {
+        "verbatimModuleSyntax": true,
+        "allowJs": true,
+        "resolveJsonModule": true,
+        "noUncheckedIndexedAccess": true,
+        "noEmit": true
+    }
 }
