@@ -40,7 +40,7 @@
     },
     "dependencies": {
         "chart.js": "^4.5.0",
-        "isomorphic-git": "^1.30.3",
+        "isomorphic-git": "^1.31.0",
         "skia-canvas": "^2.0.2"
     }
 }
