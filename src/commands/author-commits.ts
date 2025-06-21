@@ -34,7 +34,7 @@ export default async function createAuthorChart(
     })
 
     // Cleanup the cloned directory if it was a temporary clone
-    // Should I rework createAuthorChart to take a callback so it can cleanup? Probably not
+    // Should I rework resolveRepoDir to take a callback so it can cleanup? Probably not
     if (URL.canParse(repo)) {
         await cleanup(dir)
     }
