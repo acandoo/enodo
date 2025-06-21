@@ -3,5 +3,4 @@ onlyBuiltDependencies:
   - skia-canvas
 
 patchedDependencies:
-  '@tsconfig/node-lts': patches/@tsconfig__node-lts.patch
   isomorphic-git: patches/isomorphic-git.patch
