@@ -1,9 +1,8 @@
 import fs from 'node:fs'
-import { join } from 'node:path'
 
 import git from 'isomorphic-git'
 
-import tempClone from '../internal/temp-clone.ts'
+import { resolveRepoDir, cleanup } from '../internal/dir-utils.ts'
 
 import {
     BarController,
@@ -26,29 +25,19 @@ export default async function createAuthorChart(
     }
 
     // Check if repo is a valid URL or a local path
-    let dir: string
-    if (URL.canParse(repo) !== true) {
-        dir = repo
-        if (!fs.existsSync(dir)) {
-            throw new Error(`Directory ${dir} does not exist`)
-        }
-        if (!fs.existsSync(join(dir, '.git'))) {
-            throw new Error(`Directory ${dir} is not a Git repository`)
-        }
-    } else {
-        // If a URL, clone the repo to a temp directory
-        dir = await tempClone({
-            url: repo
-        })
-
-        console.log('Cloned!')
-    }
+    const dir = await resolveRepoDir(repo)
 
     // Get all commits
     const results = await git.log({
         fs,
         dir
     })
+
+    // Cleanup the cloned directory if it was a temporary clone
+    // Should I rework createAuthorChart to take a callback so it can cleanup? Probably not
+    if (URL.canParse(repo)) {
+        await cleanup(dir)
+    }
 
     type Author = {
         name: string
@@ -135,5 +124,6 @@ export default async function createAuthorChart(
     // Save chart as PNG
     const pngBuffer = await canvas.toBuffer('png', { matte: 'white' })
     await fs.promises.writeFile(output, pngBuffer)
+    console.log(`Chart saved to '${output}'`)
     chart.destroy()
 }

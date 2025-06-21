@@ -10,7 +10,7 @@ interface TempCloneOptions {
     ref?: string
 }
 
-export default async function tempClone({
+export async function tempClone({
     url,
     ref
 }: TempCloneOptions): Promise<string> {
@@ -33,6 +33,7 @@ export default async function tempClone({
         onMessage: (message) => console.log(`Message: ${message}`),
         singleBranch: true
     })
+    console.log('Cloned!')
 
     return dir
 }
