@@ -1,9 +1,9 @@
 import fs from 'node:fs'
 import { join } from 'node:path'
-import { tmpdir } from 'node:os'
 
 import git from 'isomorphic-git'
-import http from 'isomorphic-git/http/node' // TODO file issue upstream to fix their package.json
+
+import tempClone from '../internal/temp-clone.ts'
 
 import {
     BarController,
@@ -37,26 +37,8 @@ export default async function createAuthorChart(
         }
     } else {
         // If a URL, clone the repo to a temp directory
-        dir = await fs.promises.mkdtemp(join(tmpdir(), 'repo-'))
-
-        await git.clone({
-            fs,
-            http,
-            dir,
-            url: repo,
-            onProgress: (event) => {
-                if (event.loaded) {
-                    if (event.phase === 'Analyzing workdir') {
-                        console.log(`${event.phase}: ${event.loaded}`)
-                        return
-                    }
-                    console.log(
-                        `${event.phase}: ${Math.round((event.loaded / event.total) * 100)}%`
-                    )
-                }
-            },
-            onMessage: (message) => console.log(`Message: ${message}`),
-            singleBranch: true
+        dir = await tempClone({
+            url: repo
         })
 
         console.log('Cloned!')
