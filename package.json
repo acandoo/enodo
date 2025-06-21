@@ -18,7 +18,8 @@
         "build": "pkgroll --minify",
         "start": "node dist/index.js",
         "preinstall": "npx only-allow pnpm",
-        "format": "prettier . --write"
+        "format": "prettier . --write",
+        "test": "tsx --test"
     },
     "keywords": [],
     "author": "acandoo",
