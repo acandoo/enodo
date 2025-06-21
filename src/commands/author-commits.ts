@@ -1,5 +1,4 @@
 import fs from 'node:fs'
-import fsp from 'node:fs/promises'
 import { join } from 'node:path'
 import { tmpdir } from 'node:os'
 
@@ -17,7 +16,10 @@ import {
 } from 'chart.js'
 import { Canvas } from 'skia-canvas'
 
-export default async function createAuthorChart(repo: string, output: string) {
+export default async function createAuthorChart(
+    repo: string,
+    output: string
+): Promise<void> {
     // Validate output file is a PNG
     if (!output.endsWith('.png')) {
         throw new Error('Output file must be a PNG')
@@ -35,7 +37,7 @@ export default async function createAuthorChart(repo: string, output: string) {
         }
     } else {
         // If a URL, clone the repo to a temp directory
-        dir = await fsp.mkdtemp(join(tmpdir(), 'repo-'))
+        dir = await fs.promises.mkdtemp(join(tmpdir(), 'repo-'))
 
         await git.clone({
             fs,
@@ -150,6 +152,6 @@ export default async function createAuthorChart(repo: string, output: string) {
 
     // Save chart as PNG
     const pngBuffer = await canvas.toBuffer('png', { matte: 'white' })
-    await fsp.writeFile(output, pngBuffer)
+    await fs.promises.writeFile(output, pngBuffer)
     chart.destroy()
 }
