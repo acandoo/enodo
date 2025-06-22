@@ -1,9 +1,8 @@
 import fs from 'node:fs'
 
-import git from 'isomorphic-git'
 import cliProgress from 'cli-progress'
 
-import { resolveRepoDir, cleanup } from '../internal/dir-utils.ts'
+import { getRepoLog } from '../internal/git-utils.js'
 
 import {
     BarController,
@@ -33,21 +32,11 @@ export default async function createAuthorChart(
         cliProgress.Presets.shades_classic
     )
 
-    // Check if repo is a valid URL or a local path
-    const dir = await resolveRepoDir(repo, multibar)
+    // Get all commits
+    const results = await getRepoLog(repo, multibar)
+
     multibar.stop()
     console.clear()
-    // Get all commits
-    const results = await git.log({
-        fs,
-        dir
-    })
-
-    // Cleanup the cloned directory if it was a temporary clone
-    // Should I rework resolveRepoDir to take a callback so it can cleanup? Probably not
-    if (URL.canParse(repo)) {
-        await cleanup(dir)
-    }
 
     type Author = {
         name: string

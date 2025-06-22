@@ -4,9 +4,13 @@ import { tmpdir } from 'node:os'
 
 import git, {
     type MessageCallback,
-    type ProgressCallback
+    type ProgressCallback,
+    type ReadCommitResult
 } from 'isomorphic-git'
 import http from 'isomorphic-git/http/node'
+import type { MultiBar } from 'cli-progress'
+
+import { resolveRepoDir, cleanup } from './dir-utils.js'
 
 interface TempCloneOptions {
     url: string
@@ -40,4 +44,23 @@ export async function tempClone({
     })
 
     return dir
+}
+
+export async function getRepoLog(
+    repo: string,
+    multibar?: MultiBar
+): Promise<ReadCommitResult[]> {
+    // Check if repo is a valid URL or a local path
+    const dir = await resolveRepoDir(repo, multibar)
+
+    // Get all commits
+    const repoResult = await git.log({
+        fs,
+        dir
+    })
+
+    if (URL.canParse(repo)) {
+        await cleanup(dir)
+    }
+    return repoResult
 }

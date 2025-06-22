@@ -1,7 +1,5 @@
-import git from 'isomorphic-git'
 import cliProgress from 'cli-progress'
-import fs from 'node:fs'
-import { resolveRepoDir, cleanup } from '../internal/dir-utils.ts'
+import { getRepoLog } from '../internal/git-utils.js'
 
 export default async function createActivityChart(
     repos: string[],
@@ -19,31 +17,16 @@ export default async function createActivityChart(
         cliProgress.Presets.shades_classic
     )
     const results = await Promise.all(
-        repos.map(async (repo) => {
-            // Check if repo is a valid URL or a local path
-            const dir = await resolveRepoDir(repo, multibar)
-
-            // Get all commits
-            const repoResult = await git.log({
-                fs,
-                dir
-            })
-
-            if (URL.canParse(repo)) {
-                await cleanup(dir)
-            }
-            return repoResult
-        })
+        repos.map(async (repo) => getRepoLog(repo, multibar))
     )
     multibar.stop()
     console.clear()
-    results.map((repo) => {
-        repo.map((commit) => commit.commit.author)
-    })
     results.forEach((repo, index) => {
         // Placeholder for processing each repository's commits
         console.log(`Repository ${repos[index]} has ${repo.length} commits`)
     })
-    console.log(results)
+    console.log(
+        results.map((repo) => repo.map((commit) => commit.commit.author))
+    )
     return
 }
