@@ -23,10 +23,9 @@ export async function resolveRepoDir(
                 ? ({ phase, loaded, total }) => {
                       if (!loaded) return
                       if (total) {
-                          bar?.update(loaded, {
+                          bar?.update((loaded / total) * 100, {
                               phase,
-                              repo,
-                              percentage: Math.round((loaded / total) * 100)
+                              repo
                           })
                       }
                   }

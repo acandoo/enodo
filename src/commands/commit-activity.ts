@@ -13,8 +13,7 @@ export default async function createActivityChart(
     }
     const multibar = new cliProgress.MultiBar(
         {
-            clearOnComplete: false,
-            hideCursor: false,
+            hideCursor: true,
             format: ' {phase} | {bar} | {repo} | {percentage}%'
         },
         cliProgress.Presets.shades_classic
