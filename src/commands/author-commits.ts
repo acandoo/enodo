@@ -1,6 +1,7 @@
 import fs from 'node:fs'
 
 import git from 'isomorphic-git'
+import cliProgress from 'cli-progress'
 
 import { resolveRepoDir, cleanup } from '../internal/dir-utils.ts'
 
@@ -24,9 +25,18 @@ export default async function createAuthorChart(
         throw new Error('Output file must be a PNG')
     }
 
-    // Check if repo is a valid URL or a local path
-    const dir = await resolveRepoDir(repo)
+    const multibar = new cliProgress.MultiBar(
+        {
+            hideCursor: true,
+            format: ' {phase} | {bar} | {repo} | {percentage}%'
+        },
+        cliProgress.Presets.shades_classic
+    )
 
+    // Check if repo is a valid URL or a local path
+    const dir = await resolveRepoDir(repo, multibar)
+    multibar.stop()
+    console.clear()
     // Get all commits
     const results = await git.log({
         fs,
@@ -93,7 +103,7 @@ export default async function createAuthorChart(
     const chart = new Chart(canvas, {
         type: 'bar',
         data: {
-            labels: authors.map((author) => author.name),
+            labels: authors.map((author) => `${author.name} <${author.email}>`),
             datasets: [
                 {
                     label: 'Commits',
