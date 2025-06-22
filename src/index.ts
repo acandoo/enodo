@@ -20,7 +20,9 @@ program
 
 program
     .command('commit-activity')
-    .description('Compare commit activity across multiple repositories')
+    .description(
+        'Compare commit activity over time across multiple repositories'
+    )
     .argument('<repos...>', 'Repository URL(s) or path(s)')
     .option('-o, --output <file>', 'Output PNG file', './commit-activity.png')
     .action(async (repos, options) => {
