@@ -9,6 +9,7 @@ import {
     BarElement,
     CategoryScale,
     Chart,
+    Colors,
     LinearScale,
     SubTitle,
     Title
@@ -83,6 +84,7 @@ export default async function createAuthorChart(
         BarController,
         BarElement,
         CategoryScale,
+        Colors,
         LinearScale,
         Title,
         SubTitle
