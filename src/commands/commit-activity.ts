@@ -36,9 +36,14 @@ export default async function createActivityChart(
         })
     )
     multibar.stop()
+    console.clear()
+    results.map((repo) => {
+        repo.map((commit) => commit.commit.author)
+    })
     results.forEach((repo, index) => {
         // Placeholder for processing each repository's commits
         console.log(`Repository ${repos[index]} has ${repo.length} commits`)
     })
+    console.log(results)
     return
 }
