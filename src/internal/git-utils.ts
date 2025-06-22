@@ -2,17 +2,29 @@ import fs from 'node:fs'
 import { join } from 'node:path'
 import { tmpdir } from 'node:os'
 
-import git from 'isomorphic-git'
+import git, {
+    type MessageCallback,
+    type ProgressCallback
+} from 'isomorphic-git'
 import http from 'isomorphic-git/http/node'
 
 interface TempCloneOptions {
     url: string
     ref?: string
+    onProgress?: ProgressCallback
+    onMessage?: MessageCallback
 }
 
 export async function tempClone({
     url,
-    ref
+    ref,
+    onProgress = ({ phase, loaded, total }) => {
+        if (!loaded) return
+        if (total) {
+            console.log(`${phase}: ${Math.round((loaded / total) * 100)}%`)
+        }
+    },
+    onMessage = console.log
 }: TempCloneOptions): Promise<string> {
     const dir = await fs.promises.mkdtemp(join(tmpdir(), 'repo-'))
 
@@ -22,18 +34,10 @@ export async function tempClone({
         dir,
         url,
         ref,
-        onProgress: ({ phase, loaded, total }) => {
-            if (!loaded) return
-            if (phase === 'Analyzing workdir') {
-                console.log(`${phase}: ${loaded}`)
-            } else if (total) {
-                console.log(`${phase}: ${Math.round((loaded / total) * 100)}%`)
-            }
-        },
-        onMessage: (message) => console.log(`Message: ${message}`),
+        onProgress,
+        onMessage,
         singleBranch: true
     })
-    console.log('Cloned!')
 
     return dir
 }

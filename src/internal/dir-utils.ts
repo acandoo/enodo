@@ -2,11 +2,40 @@ import fs from 'node:fs'
 import { join } from 'node:path'
 
 import { tempClone } from './git-utils.ts'
+import { MultiBar } from 'cli-progress'
 
-export async function resolveRepoDir(repo: string): Promise<string> {
+export async function resolveRepoDir(
+    repo: string,
+    multibar?: MultiBar
+): Promise<string> {
     if (URL.canParse(repo)) {
+        const bar = multibar?.create(100, 0, {
+            phase: 'Cloning',
+            repo,
+            percentage: 0,
+            value: 0,
+            total: 0
+        })
         // If a URL, clone the repo to a temp directory
-        return await tempClone({ url: repo })
+        const repoDir = await tempClone({
+            url: repo,
+            onProgress: bar
+                ? ({ phase, loaded, total }) => {
+                      if (!loaded) return
+                      if (total) {
+                          bar?.update(loaded, {
+                              phase,
+                              repo,
+                              percentage: Math.round((loaded / total) * 100)
+                          })
+                      }
+                  }
+                : undefined,
+            onMessage: () => {}
+        })
+        bar?.stop()
+        if (bar) multibar?.remove(bar)
+        return repoDir
     }
     if (!fs.existsSync(repo)) {
         throw new Error(`Directory ${repo} does not exist`)
