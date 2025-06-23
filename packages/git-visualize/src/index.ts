@@ -2,8 +2,7 @@ import { program } from '@commander-js/extra-typings'
 import pkg from '../package.json' with { type: 'json' }
 import createAuthorChart from './commands/author-commits.ts'
 import createActivityChart from './commands/commit-activity.ts'
-import { tempClone, getRepoLog } from './internal/git-utils.ts'
-import { resolveRepoDir, cleanup } from './internal/dir-utils.ts'
+import createRawLog from './commands/raw-log.ts'
 
 program.name(pkg.name).description(pkg.description).version(pkg.version)
 
@@ -31,8 +30,21 @@ program
         await createActivityChart(repos, options.output)
     })
 
+program
+    .command('raw-log')
+    .description('Get raw JSON commit log for a repository')
+    .argument('<repo>', 'Repository URL or path')
+    .option('-o, --output <file>', 'Output JSON file', './repo-log.json')
+    .option('--pretty', 'Pretty print JSON output', false)
+    .action(async (repo, options) => {
+        await createRawLog(repo, options.output, options.pretty)
+    })
+
 program.parse()
 
+/*
+// For now commented out as this is highly subject to change
+// should i create separarte api/ folder?
 export {
     createAuthorChart,
     createActivityChart,
@@ -41,3 +53,4 @@ export {
     resolveRepoDir,
     cleanup
 }
+*/
