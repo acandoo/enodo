@@ -1,12 +1,16 @@
 import fs from 'node:fs'
 import { join } from 'node:path'
+import { tmpdir } from 'node:os'
 
-import { tempClone } from './git-utils.ts'
-import { MultiBar } from 'cli-progress'
+import git from 'isomorphic-git'
+import http from 'isomorphic-git/http/node'
+
+import { type MultiBar } from 'cli-progress'
 
 export async function resolveRepoDir(
     repo: string,
-    multibar?: MultiBar
+    multibar?: MultiBar,
+    ref?: string
 ): Promise<string> {
     if (URL.canParse(repo)) {
         const bar = multibar?.create(100, 0, {
@@ -17,8 +21,14 @@ export async function resolveRepoDir(
             total: 0
         })
         // If a URL, clone the repo to a temp directory
-        const repoDir = await tempClone({
+        const dir = await fs.promises.mkdtemp(join(tmpdir(), 'repo-'))
+
+        await git.clone({
+            fs,
+            http,
+            dir,
             url: repo,
+            ref,
             onProgress: bar
                 ? ({ phase, loaded, total }) => {
                       if (!loaded) return
@@ -30,11 +40,13 @@ export async function resolveRepoDir(
                       }
                   }
                 : undefined,
-            onMessage: () => {}
+            onMessage: () => {},
+            singleBranch: true
         })
+
         bar?.stop()
         if (bar) multibar?.remove(bar)
-        return repoDir
+        return dir
     }
     if (!fs.existsSync(repo)) {
         throw new Error(`Directory ${repo} does not exist`)
