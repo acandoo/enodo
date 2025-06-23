@@ -1,4 +1,5 @@
 import fs from 'node:fs'
+
 import { getRepoLog } from '../internal/git-utils.ts'
 
 export default async function createRawLog(

@@ -1,16 +1,16 @@
 import assert from 'node:assert/strict'
-import { test, suite, before, after } from 'node:test'
 import fs from 'node:fs'
-import { join } from 'node:path'
 import { tmpdir } from 'node:os'
+import { join } from 'node:path'
+import { after, before, suite, test } from 'node:test'
 
+import { cleanup, resolveRepoDir } from '../internal/dir-utils.ts'
 import {
-    TEST_REPO_NAME,
     EXAMPLE_REPO,
     TEST_FAKE_REPO,
+    TEST_REPO_NAME,
     setupTestRepo
 } from './test-common.ts'
-import { resolveRepoDir, cleanup } from '../internal/dir-utils.ts'
 
 const TEST_REPO_DIR = join(tmpdir(), TEST_REPO_NAME)
 

@@ -1,11 +1,10 @@
 import fs from 'node:fs'
-import { join } from 'node:path'
 import { tmpdir } from 'node:os'
-
-import git from 'isomorphic-git'
-import http from 'isomorphic-git/http/node'
+import { join } from 'node:path'
 
 import { type MultiBar } from 'cli-progress'
+import git from 'isomorphic-git'
+import http from 'isomorphic-git/http/node'
 
 export async function resolveRepoDir(
     repo: string,

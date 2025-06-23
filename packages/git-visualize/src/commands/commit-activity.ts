@@ -1,19 +1,20 @@
 import fs from 'node:fs'
 
-import cliProgress from 'cli-progress'
-import { getRepoLog } from '../internal/git-utils.ts'
 import {
     CategoryScale,
     Chart,
     Colors,
-    LinearScale,
     LineController,
     LineElement,
+    LinearScale,
     PointElement,
     SubTitle,
     Title
 } from 'chart.js'
+import cliProgress from 'cli-progress'
 import { Canvas } from 'skia-canvas'
+
+import { getRepoLog } from '../internal/git-utils.ts'
 
 export default async function createActivityChart(
     repos: string[],

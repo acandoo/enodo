@@ -1,4 +1,5 @@
 import { program } from '@commander-js/extra-typings'
+
 import pkg from '../package.json' with { type: 'json' }
 import createAuthorChart from './commands/author-commits.ts'
 import createActivityChart from './commands/commit-activity.ts'

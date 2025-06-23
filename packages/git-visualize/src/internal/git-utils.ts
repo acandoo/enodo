@@ -1,9 +1,9 @@
 import fs from 'node:fs'
 
-import git, { type ReadCommitResult } from 'isomorphic-git'
 import type { MultiBar } from 'cli-progress'
+import git, { type ReadCommitResult } from 'isomorphic-git'
 
-import { resolveRepoDir, cleanup } from './dir-utils.ts'
+import { cleanup, resolveRepoDir } from './dir-utils.ts'
 
 export async function getRepoLog(
     repo: string,
