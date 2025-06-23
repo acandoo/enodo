@@ -1,3 +1,6 @@
 packages:
   - packages/git-visualize
   - packages/notebooks
+
+onlyBuiltDependencies:
+  - esbuild
