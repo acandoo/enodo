@@ -9,19 +9,25 @@ toc: false
 <!-- Load and transform the data -->
 
 ```js
-const launches = FileAttachment("data/launches.csv").csv({typed: true});
+const launches = FileAttachment('data/launches.csv').csv({ typed: true })
 ```
 
 <!-- A shared color scale for consistency, sorted by the number of launches -->
 
 ```js
 const color = Plot.scale({
-  color: {
-    type: "categorical",
-    domain: d3.groupSort(launches, (D) => -D.length, (d) => d.state).filter((d) => d !== "Other"),
-    unknown: "var(--theme-foreground-muted)"
-  }
-});
+    color: {
+        type: 'categorical',
+        domain: d3
+            .groupSort(
+                launches,
+                (D) => -D.length,
+                (d) => d.state
+            )
+            .filter((d) => d !== 'Other'),
+        unknown: 'var(--theme-foreground-muted)'
+    }
+})
 ```
 
 <!-- Cards with big numbers -->
@@ -48,18 +54,24 @@ const color = Plot.scale({
 <!-- Plot of launch history -->
 
 ```js
-function launchTimeline(data, {width} = {}) {
-  return Plot.plot({
-    title: "Launches over the years",
-    width,
-    height: 300,
-    y: {grid: true, label: "Launches"},
-    color: {...color, legend: true},
-    marks: [
-      Plot.rectY(data, Plot.binX({y: "count"}, {x: "date", fill: "state", interval: "year", tip: true})),
-      Plot.ruleY([0])
-    ]
-  });
+function launchTimeline(data, { width } = {}) {
+    return Plot.plot({
+        title: 'Launches over the years',
+        width,
+        height: 300,
+        y: { grid: true, label: 'Launches' },
+        color: { ...color, legend: true },
+        marks: [
+            Plot.rectY(
+                data,
+                Plot.binX(
+                    { y: 'count' },
+                    { x: 'date', fill: 'state', interval: 'year', tip: true }
+                )
+            ),
+            Plot.ruleY([0])
+        ]
+    })
 }
 ```
 
@@ -72,21 +84,27 @@ function launchTimeline(data, {width} = {}) {
 <!-- Plot of launch vehicles -->
 
 ```js
-function vehicleChart(data, {width}) {
-  return Plot.plot({
-    title: "Popular launch vehicles",
-    width,
-    height: 300,
-    marginTop: 0,
-    marginLeft: 50,
-    x: {grid: true, label: "Launches"},
-    y: {label: null},
-    color: {...color, legend: true},
-    marks: [
-      Plot.rectX(data, Plot.groupY({x: "count"}, {y: "family", fill: "state", tip: true, sort: {y: "-x"}})),
-      Plot.ruleX([0])
-    ]
-  });
+function vehicleChart(data, { width }) {
+    return Plot.plot({
+        title: 'Popular launch vehicles',
+        width,
+        height: 300,
+        marginTop: 0,
+        marginLeft: 50,
+        x: { grid: true, label: 'Launches' },
+        y: { label: null },
+        color: { ...color, legend: true },
+        marks: [
+            Plot.rectX(
+                data,
+                Plot.groupY(
+                    { x: 'count' },
+                    { y: 'family', fill: 'state', tip: true, sort: { y: '-x' } }
+                )
+            ),
+            Plot.ruleX([0])
+        ]
+    })
 }
 ```
 
