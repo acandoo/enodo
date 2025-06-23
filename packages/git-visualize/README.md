@@ -6,6 +6,8 @@ git-visualize is a CLI/library focused on creating visualizations for git reposi
 
 - [ ] contribute upstream to [isomorphic-git](https://github.com/isomorphic-git/isomorphic-git) to actually fix weird filename issue with systemd/systemd
 - [ ] scan for system git before using isomorphic-git for cloning
+- [ ] prompt user if file already exists (use inquirer-js)
+- [ ] make all commands multi-repo options
 - [ ] cleaner, functional code
 - [ ] add tests
 - [ ] moar features
