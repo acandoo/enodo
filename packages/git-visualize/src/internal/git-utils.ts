@@ -10,7 +10,7 @@ import git, {
 import http from 'isomorphic-git/http/node'
 import type { MultiBar } from 'cli-progress'
 
-import { resolveRepoDir, cleanup } from './dir-utils.js'
+import { resolveRepoDir, cleanup } from './dir-utils.ts'
 
 interface TempCloneOptions {
     url: string

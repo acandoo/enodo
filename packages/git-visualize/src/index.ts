@@ -2,6 +2,8 @@ import { program } from '@commander-js/extra-typings'
 import pkg from '../package.json' with { type: 'json' }
 import createAuthorChart from './commands/author-commits.ts'
 import createActivityChart from './commands/commit-activity.ts'
+import { tempClone, getRepoLog } from './internal/git-utils.ts'
+import { resolveRepoDir, cleanup } from './internal/dir-utils.ts'
 
 program.name(pkg.name).description(pkg.description).version(pkg.version)
 
@@ -31,4 +33,11 @@ program
 
 program.parse()
 
-export { createAuthorChart, createActivityChart }
+export {
+    createAuthorChart,
+    createActivityChart,
+    tempClone,
+    getRepoLog,
+    resolveRepoDir,
+    cleanup
+}

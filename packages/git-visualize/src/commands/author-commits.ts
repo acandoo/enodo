@@ -2,7 +2,7 @@ import fs from 'node:fs'
 
 import cliProgress from 'cli-progress'
 
-import { getRepoLog } from '../internal/git-utils.js'
+import { getRepoLog } from '../internal/git-utils.ts'
 
 import {
     BarController,

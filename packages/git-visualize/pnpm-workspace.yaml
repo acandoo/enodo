@@ -1,0 +1,6 @@
+onlyBuiltDependencies:
+  - esbuild
+  - skia-canvas
+
+patchedDependencies:
+  isomorphic-git: patches/isomorphic-git.patch

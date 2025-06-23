@@ -1,7 +1,7 @@
 import fs from 'node:fs'
 
 import cliProgress from 'cli-progress'
-import { getRepoLog } from '../internal/git-utils.js'
+import { getRepoLog } from '../internal/git-utils.ts'
 import {
     CategoryScale,
     Chart,
@@ -71,6 +71,8 @@ export default async function createActivityChart(
         range.year -= 1
         range.month += 12
     }
+
+    // const totalMonths = range.year * 12 + range.month
 
     console.log('Date range:', range)
 
