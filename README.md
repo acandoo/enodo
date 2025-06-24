@@ -32,3 +32,19 @@ This repository is a monorepo currently housing two projects:
 ├── package.json
 └── { miscellaneous config, linting, formatting stuff }
 ```
+
+### AI Usage
+
+On Hack Club's `#summer-of-making-bulletin`:
+
+> Our only rule is that you have to check the box and explain what the AI did in the readme!!! Otherwise we consider it to be plagiarism and it can get you booted from the game 🤡
+
+My goals for this project were to learn the interfaces/APIs of Node and popular NPM libraries, and build something cool (and useful) in the process! Generative AI tools were partially used in the following processes:
+
+- researching libraries
+- generating commit messages
+- refactoring code
+- auto-completing code snippets
+- parsing error messages and resolving them
+- automatically resolving type errors
+- explaining APIs
