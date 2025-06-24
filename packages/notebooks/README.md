@@ -1,12 +1,6 @@
 # Analysis of Open Source Software
 
-This is an [Observable Framework](https://observablehq.com/framework/) app. To install the required dependencies, run:
-
-```
-npm install
-```
-
-Then, to start the local preview server, run:
+This is an [Observable Framework](https://observablehq.com/framework/) app for analyzing patterns and activity in the Open Source ecosystem. To start the local preview server, run:
 
 ```
 pnpm run dev
@@ -49,11 +43,11 @@ A typical Framework project looks like this:
 
 ## Command reference
 
-| Command              | Description                                 |
-| -------------------- | ------------------------------------------- |
-| `npm install`        | Install or reinstall dependencies           |
-| `npm run dev`        | Start local preview server                  |
-| `npm run build`      | Build your static site, generating `./dist` |
-| `npm run deploy`     | Deploy your app to Observable               |
-| `npm run clean`      | Clear the local data loader cache           |
-| `npm run observable` | Run commands like `observable help`         |
+| Command               | Description                                 |
+| --------------------- | ------------------------------------------- |
+| `pnpm install`        | Install or reinstall dependencies           |
+| `pnpm run dev`        | Start local preview server                  |
+| `pnpm run build`      | Build your static site, generating `./dist` |
+| `pnpm run deploy`     | Deploy your app to Observable               |
+| `pnpm run clean`      | Clear the local data loader cache           |
+| `pnpm run observable` | Run commands like `observable help`         |
