@@ -15,9 +15,9 @@ import {
 const TEST_REPO_DIR = join(tmpdir(), TEST_REPO_NAME)
 
 suite('resolveRepoDir', () => {
-    before(async () => await setupTestRepo(TEST_REPO_DIR))
+    before(() => setupTestRepo(TEST_REPO_DIR))
 
-    after(async () => await cleanup(TEST_REPO_DIR))
+    after(() => cleanup(TEST_REPO_DIR))
 
     test('returns the same path for a valid local git repo', async () => {
         const dir = await resolveRepoDir(TEST_REPO_DIR)
