@@ -1,8 +1,8 @@
 import assert from 'node:assert/strict'
 import fs from 'node:fs'
 import { tmpdir } from 'node:os'
-import { join } from 'node:path'
-import { after, before, suite, test } from 'node:test'
+import { dirname, join } from 'node:path'
+import { type TestContext, suite, test } from 'node:test'
 
 import { cleanup, resolveRepoDir } from '../internal/dir-utils.ts'
 import {
@@ -12,16 +12,13 @@ import {
     setupTestRepo
 } from './test-common.ts'
 
-const TEST_REPO_DIR = join(tmpdir(), TEST_REPO_NAME)
-
 suite('resolveRepoDir', () => {
-    before(() => setupTestRepo(TEST_REPO_DIR))
-
-    after(() => cleanup(TEST_REPO_DIR))
-
     test('returns the same path for a valid local git repo', async () => {
+        const TEST_REPO_DIR = join(tmpdir(), TEST_REPO_NAME)
+        await setupTestRepo(TEST_REPO_DIR)
         const dir = await resolveRepoDir(TEST_REPO_DIR)
         assert.equal(dir, TEST_REPO_DIR)
+        await cleanup(TEST_REPO_DIR)
     })
 
     test('throws for a non-existent directory', async () => {
@@ -35,7 +32,7 @@ suite('resolveRepoDir', () => {
         const tmp = await fs.promises.mkdtemp(join(tmpdir(), 'not-a-git-'))
         try {
             await assert.rejects(
-                () => resolveRepoDir(tmp),
+                async () => await resolveRepoDir(tmp),
                 /is not a Git repository/
             )
         } finally {
@@ -43,11 +40,30 @@ suite('resolveRepoDir', () => {
         }
     })
 
-    test('can resolve a remote repo URL (clone)', async () => {
-        // This will actually clone the repo, so it may take time and require network
+    test('can correctly clone a remote repo URL', async (t) => {
         const dir = await resolveRepoDir(EXAMPLE_REPO)
-        assert.ok(fs.existsSync(join(dir, '.git')))
-        // Clean up the cloned directory
-        await fs.promises.rm(dir, { recursive: true, force: true })
+        t.after(() => fs.promises.rm(dir, { recursive: true, force: true }))
+
+        t.test(
+            'can resolve a remote repo URL (clone)',
+            async (t: TestContext) => {
+                t.assert.ok(fs.readdirSync(join(dir, '.git')))
+            }
+        )
+
+        t.test('downloads the repo correctly', async (t: TestContext) => {
+            // Compare the repo directory with the pre-cloned example repo
+            if (!t.filePath)
+                throw new Error('TestContext.filePath is undefined')
+            const cloned = await fs.promises.readdir(dir)
+            const preCloned = await fs.promises.readdir(
+                join(dirname(t.filePath), 'assets/EXAMPLE_REPO')
+            )
+            t.assert.deepEqual(
+                cloned,
+                preCloned,
+                'Cloned repo contents should match the example repo contents'
+            )
+        })
     })
 })
