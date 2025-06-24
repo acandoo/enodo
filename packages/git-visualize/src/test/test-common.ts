@@ -4,6 +4,9 @@ import { join } from 'node:path'
 import git from 'isomorphic-git'
 
 export const EXAMPLE_REPO = 'https://github.com/octocat/Hello-World'
+export const EXAMPLE_REPO_COMMITS = 3
+export const INITIAL_COMMIT = 'Initial commit\n' // Initial commit across both Hello-World and setupTestRepo
+export const LOCAL_REPO_PATH = 'assets/Hello-World'
 export const TEST_REPO_NAME = 'test-git-repo'
 export const TEST_FAKE_REPO = 'not-a-git-repo'
 export const GIT_USERNAME = 'Test User'
@@ -21,6 +24,6 @@ export async function setupTestRepo(testRepo: string): Promise<void> {
         fs,
         dir: testRepo,
         author: { name: GIT_USERNAME, email: GIT_EMAIL },
-        message: 'Initial commit'
+        message: INITIAL_COMMIT
     })
 }

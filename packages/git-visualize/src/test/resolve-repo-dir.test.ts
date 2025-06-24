@@ -7,6 +7,7 @@ import { type TestContext, suite, test } from 'node:test'
 import { cleanup, resolveRepoDir } from '../internal/dir-utils.ts'
 import {
     EXAMPLE_REPO,
+    LOCAL_REPO_PATH,
     TEST_FAKE_REPO,
     TEST_REPO_NAME,
     setupTestRepo
@@ -57,7 +58,7 @@ suite('resolveRepoDir', () => {
                 throw new Error('TestContext.filePath is undefined')
             const cloned = await fs.promises.readdir(dir)
             const preCloned = await fs.promises.readdir(
-                join(dirname(t.filePath), 'assets/EXAMPLE_REPO')
+                join(dirname(t.filePath), LOCAL_REPO_PATH)
             )
             t.assert.deepEqual(
                 cloned,
