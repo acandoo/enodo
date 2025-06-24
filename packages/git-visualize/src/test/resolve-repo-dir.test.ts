@@ -45,14 +45,14 @@ suite('resolveRepoDir', () => {
         const dir = await resolveRepoDir(EXAMPLE_REPO)
         t.after(() => fs.promises.rm(dir, { recursive: true, force: true }))
 
-        t.test(
+        await t.test(
             'can resolve a remote repo URL (clone)',
             async (t: TestContext) => {
                 t.assert.ok(fs.readdirSync(join(dir, '.git')))
             }
         )
 
-        t.test('downloads the repo correctly', async (t: TestContext) => {
+        await t.test('downloads the repo correctly', async (t: TestContext) => {
             // Compare the repo directory with the pre-cloned example repo
             if (!t.filePath)
                 throw new Error('TestContext.filePath is undefined')
