@@ -1,4 +1,7 @@
 **/node_modules
 **/dist
-commits-per-author.png
-commit-activity.png
+**/repo
+**/commits-per-author.png
+**/commit-activity.png
+**/repo-log.json
+**/.DS_Store
