@@ -4,6 +4,11 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+patchedDependencies:
+  isomorphic-git:
+    hash: f1f4654714932f6a6b3ed6aae90f976547d2887ff8b4ada6d54bcf042a3b64d8
+    path: patches/isomorphic-git.patch
+
 importers:
 
   .:
@@ -69,8 +74,8 @@ importers:
         specifier: ^14.0.0
         version: 14.0.0
       isomorphic-git:
-        specifier: ^1.31.0
-        version: 1.31.0
+        specifier: ^1.31.1
+        version: 1.31.1(patch_hash=f1f4654714932f6a6b3ed6aae90f976547d2887ff8b4ada6d54bcf042a3b64d8)
       skia-canvas:
         specifier: ^2.0.2
         version: 2.0.2
@@ -94,11 +99,11 @@ importers:
         specifier: ^4.1.0
         version: 4.1.0
       git-visualize:
-        specifier: workspace:^0.0.1
+        specifier: workspace:^
         version: link:../git-visualize
     devDependencies:
       rimraf:
-        specifier: ^5.0.5
+        specifier: ^5.0.10
         version: 5.0.10
 
 packages:
@@ -1615,8 +1620,8 @@ packages:
   isoformat@0.2.1:
     resolution: {integrity: sha512-tFLRAygk9NqrRPhJSnNGh7g7oaVWDwR0wKh/GM2LgmPa50Eg4UfyaCO4I8k6EqJHl1/uh2RAD6g06n5ygEnrjQ==}
 
-  isomorphic-git@1.31.0:
-    resolution: {integrity: sha512-huMXDX1pMuBc0+GQSp7zD4ejqmrhqwWlK2X7p2dZyb7p2DKZWva4kRc4aH+0EE92W1j3+D7N4VRv35RCMWAeCQ==}
+  isomorphic-git@1.31.1:
+    resolution: {integrity: sha512-aQ2fg2Qf69Abhu4C3WkRDhr5WcY40mQpIALC2+HTJjeyKlKT/7pXm9KUEtcCbR6TnLxmzOO98IFQvkY6cBIzaw==}
     engines: {node: '>=14.17'}
     hasBin: true
 
@@ -3739,7 +3744,7 @@ snapshots:
 
   isoformat@0.2.1: {}
 
-  isomorphic-git@1.31.0:
+  isomorphic-git@1.31.1(patch_hash=f1f4654714932f6a6b3ed6aae90f976547d2887ff8b4ada6d54bcf042a3b64d8):
     dependencies:
       async-lock: 1.4.1
       clean-git-ref: 2.0.1

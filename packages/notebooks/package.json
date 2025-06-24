@@ -13,10 +13,10 @@
         "@observablehq/framework": "^1.13.3",
         "d3-dsv": "^3.0.1",
         "d3-time-format": "^4.1.0",
-        "git-visualize": "workspace:^0.0.1"
+        "git-visualize": "workspace:^"
     },
     "devDependencies": {
-        "rimraf": "^5.0.5"
+        "rimraf": "^5.0.10"
     },
     "engines": {
         "node": ">=18"
