@@ -76,6 +76,9 @@ export default async function createAuthorChart(
         style: {
             backgroundColor: '#ddddef'
         },
+        x: {
+            tickFormat: (d) => (Number.isInteger(d) ? d : '')
+        },
         y: {
             label: null
         },
