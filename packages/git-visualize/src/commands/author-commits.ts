@@ -4,6 +4,7 @@ import puppeteer, { type ImageFormat } from 'puppeteer'
 
 import * as Plot from '@observablehq/plot'
 
+import { createHTMLChart } from '../internal/create-html-chart.ts'
 import { getRepoLog } from '../internal/git-utils.ts'
 
 export default async function createAuthorChart(
@@ -67,7 +68,7 @@ export default async function createAuthorChart(
     const browser = await puppeteer.launch()
     const page = await browser.newPage()
 
-    const plot = Plot.plot({
+    const plot = createHTMLChart({
         // Titles not compatible with SVG output
         title: `Commits per Author (top ${authors.length})`,
         subtitle: `Repository: ${repo}`,
@@ -92,41 +93,8 @@ export default async function createAuthorChart(
             })
         ]
     })
-    const html = `
-<!DOCTYPE html>
-<html>
-<head>
-  <style>
-    body {
-      background: #ddddef;
-      font-family: 'Segoe UI', Arial, sans-serif;
-      color: #222;
-      margin: 0;
-      padding: 2em;
-    }
-    figure {
-      margin: 0 auto;
-      box-shadow: 0 2px 12px #aaa4;
-      border-radius: 8px;
-      background: #ddddef;
-      padding: 1em;
-    }
-    text {
-      font-size: 1.1em;
-      fill: #222;
-    }
-    .plot-title, .plot-subtitle {
-      text-anchor: middle;
-      font-weight: bold;
-    }
-  </style>
-</head>
-<body>
-  ${plot.outerHTML}
-</body>
-</html>
-`
-    await page.setContent(html)
+
+    await page.setContent(plot)
     const chart = await page.waitForSelector('figure')
 
     await chart?.screenshot({ path: coerced })
