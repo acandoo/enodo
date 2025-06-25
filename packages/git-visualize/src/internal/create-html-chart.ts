@@ -1,3 +1,5 @@
+import { JSDOM } from 'jsdom'
+
 import * as Plot from '@observablehq/plot'
 
 export const createHTMLChart = (options?: Plot.PlotOptions) => `
@@ -30,7 +32,12 @@ export const createHTMLChart = (options?: Plot.PlotOptions) => `
   </style>
 </head>
 <body>
-  ${Plot.plot(options).outerHTML}
+  ${
+      Plot.plot({
+          ...options,
+          document: new JSDOM('').window.document
+      }).outerHTML
+  }
 </body>
 </html>
 `

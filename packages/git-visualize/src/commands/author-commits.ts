@@ -1,5 +1,4 @@
 import cliProgress from 'cli-progress'
-import { JSDOM } from 'jsdom'
 import puppeteer, { type ImageFormat } from 'puppeteer'
 
 import * as Plot from '@observablehq/plot'
@@ -72,7 +71,6 @@ export default async function createAuthorChart(
         // Titles not compatible with SVG output
         title: `Commits per Author (top ${authors.length})`,
         subtitle: `Repository: ${repo}`,
-        document: new JSDOM('').window.document,
         grid: true,
         style: {
             backgroundColor: '#ddddef'
