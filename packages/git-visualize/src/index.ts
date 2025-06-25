@@ -13,8 +13,8 @@ program
     .argument('<repo>', 'Repository URL or path')
     .option(
         '-o, --output <file>',
-        'Output SVG file',
-        './commits-per-author.svg'
+        'Output PNG/JPEG/WEBP file',
+        './commits-per-author.png'
     )
     .action(async (repo, options) => {
         await createAuthorChart(repo, options.output)

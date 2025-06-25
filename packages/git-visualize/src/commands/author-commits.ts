@@ -1,7 +1,6 @@
-import fs from 'node:fs'
-
 import cliProgress from 'cli-progress'
 import { JSDOM } from 'jsdom'
+import puppeteer, { type ImageFormat } from 'puppeteer'
 
 import * as Plot from '@observablehq/plot'
 
@@ -11,10 +10,15 @@ export default async function createAuthorChart(
     repo: string,
     output: string
 ): Promise<void> {
-    // Validate output file is a PNG
-    if (!output.endsWith('.svg')) {
-        throw new Error('Output file must be an SVG')
+    const allowedFormats: ImageFormat[] = ['png', 'jpeg', 'webp']
+
+    // Validate output file is an allowed format
+    if (!allowedFormats.some((fmt) => output.endsWith(`.${fmt}`))) {
+        throw new Error(
+            `Output file must be one of: ${allowedFormats.map((f) => `.${f}`).join(', ')}`
+        )
     }
+    const coerced = output as `${string}.${ImageFormat}`
 
     const multibar = new cliProgress.MultiBar(
         {
@@ -56,29 +60,26 @@ export default async function createAuthorChart(
             }
         })
 
-    /*
-    // Sort authors by number of commits and name, descending
-    authors
-        .sort((a, b) => {
-            if (a.commits !== b.commits) return b.commits - a.commits
-            if (a.name.toLowerCase() < b.name.toLowerCase()) return -1
-            if (a.name.toLowerCase() > b.name.toLowerCase()) return 1
-            return 0
-        })
-        .splice(50) // Keep only top 50 authors
-    */
+    authors.splice(50) // Keep only top 50 authors
 
     // Create a horizontal bar chart
+
+    const browser = await puppeteer.launch()
+    const page = await browser.newPage()
+
     const plot = Plot.plot({
         // Titles not compatible with SVG output
-        // title: 'Commits per Author (top 50)',
-        // subtitle: `Repository: ${repo}`,
+        title: 'Commits per Author (top 50)',
+        subtitle: `Repository: ${repo}`,
         document: new JSDOM('').window.document,
         grid: true,
         style: {
             backgroundColor: '#ddddef'
         },
-        marginLeft: 200,
+        y: {
+            label: null
+        },
+        marginLeft: 90,
         marks: [
             Plot.barX(authors, {
                 x: 'commits',
@@ -89,17 +90,10 @@ export default async function createAuthorChart(
         ]
     })
 
-    plot.setAttributeNS(
-        'http://www.w3.org/2000/xmlns/',
-        'xmlns',
-        'http://www.w3.org/2000/svg'
-    )
-    plot.setAttributeNS(
-        'http://www.w3.org/2000/xmlns/',
-        'xmlns:xlink',
-        'http://www.w3.org/1999/xlink'
-    )
+    await page.setContent(plot.outerHTML)
+    const chart = await page.waitForSelector('figure')
 
-    await fs.promises.writeFile(output, plot.outerHTML)
+    await chart?.screenshot({ path: coerced })
     console.log(`Chart saved to '${output}'`)
+    await browser.close()
 }
