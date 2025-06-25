@@ -35,9 +35,9 @@ export default async function createAuthorChart(
     console.clear()
 
     type Author = {
-        name: string
-        email: string
-        commits: number
+        Name: string
+        Email: string
+        Commits: number
     }
     const authors: Author[] = []
 
@@ -47,15 +47,15 @@ export default async function createAuthorChart(
         .forEach((author) => {
             // Check if author already exists in authors array
             const existingAuthor = authors.find(
-                (a) => a.name === author.name && a.email === author.email
+                (a) => a.Name === author.name && a.Email === author.email
             )
             if (existingAuthor) {
-                existingAuthor.commits += 1
+                existingAuthor.Commits += 1
             } else {
                 authors.push({
-                    name: author.name,
-                    email: author.email,
-                    commits: 1
+                    Name: author.name,
+                    Email: author.email,
+                    Commits: 1
                 })
             }
         })
@@ -69,7 +69,7 @@ export default async function createAuthorChart(
 
     const plot = Plot.plot({
         // Titles not compatible with SVG output
-        title: 'Commits per Author (top 50)',
+        title: `Commits per Author (top ${authors.length})`,
         subtitle: `Repository: ${repo}`,
         document: new JSDOM('').window.document,
         grid: true,
@@ -82,8 +82,8 @@ export default async function createAuthorChart(
         marginLeft: 200,
         marks: [
             Plot.barX(authors, {
-                x: 'commits',
-                y: 'name',
+                x: 'Commits',
+                y: 'Name',
                 fill: 'darkblue',
                 sort: { y: '-x' }
             })
