@@ -24,6 +24,12 @@ export default async function createActivityChart(
     if (!output.endsWith('.png')) {
         throw new Error('Output file must be a PNG')
     }
+
+    // Ensure repos don't contain duplicates
+    if (new Set(repos).size !== repos.length) {
+        throw new Error('Duplicate repositories found in the input array')
+    }
+
     const multibar = new cliProgress.MultiBar(
         {
             hideCursor: true,
