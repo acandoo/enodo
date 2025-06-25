@@ -8,11 +8,14 @@ import { getRepoLog } from '../internal/git-utils.ts'
 
 export default async function createAuthorChart(
     repo: string,
-    output: string
+    output: string,
+    max: string
 ): Promise<void> {
-    const allowedFormats: ImageFormat[] = ['png', 'jpeg', 'webp']
+    // Set maxEntries
+    const maxEntries = parseInt(max, 10)
 
     // Validate output file is an allowed format
+    const allowedFormats: ImageFormat[] = ['png', 'jpeg', 'webp']
     if (!allowedFormats.some((fmt) => output.endsWith(`.${fmt}`))) {
         throw new Error(
             `Output file must be one of: ${allowedFormats.map((f) => `.${f}`).join(', ')}`
@@ -60,7 +63,7 @@ export default async function createAuthorChart(
             }
         })
 
-    authors.splice(50) // Keep only top 50 authors
+    authors.splice(maxEntries) // Keep only top 50 authors
 
     // Create a horizontal bar chart
 

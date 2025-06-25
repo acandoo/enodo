@@ -16,8 +16,13 @@ program
         'Output PNG/JPEG/WEBP file',
         './commits-per-author.png'
     )
+    .option(
+        '-m, --max <authors>',
+        'Maximum number of authors displayed in the graph',
+        '50'
+    )
     .action(async (repo, options) => {
-        await createAuthorChart(repo, options.output)
+        await createAuthorChart(repo, options.output, options.max)
     })
 
 program
