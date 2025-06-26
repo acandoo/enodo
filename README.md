@@ -44,7 +44,7 @@ My goals for this project were to learn the interfaces/APIs of Node and popular 
 - researching libraries
 - generating commit messages
 - refactoring code
-- auto-completing code snippets
+- auto-completing/generating code snippets
 - parsing error messages and resolving them
 - automatically resolving type errors
 - explaining APIs
