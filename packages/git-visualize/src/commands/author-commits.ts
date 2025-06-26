@@ -62,15 +62,12 @@ export default async function createAuthorChart(
             }
         })
 
-    authors.splice(maxEntries) // Keep only top 50 authors
+    authors.splice(maxEntries) // Keep only top 50 (by default) authors
 
     // Create a horizontal bar chart
 
-    const browser = await puppeteer.launch()
-    const page = await browser.newPage()
-
+    console.log('Creating chart...')
     const plot = createHTMLChart({
-        // Titles not compatible with SVG output
         title: `Commits per Author (top ${authors.length})`,
         subtitle: `Repository: ${repo}`,
         grid: true,
@@ -91,10 +88,13 @@ export default async function createAuthorChart(
         ]
     })
 
+    console.log('Rendering...')
+    const browser = await puppeteer.launch()
+    const page = await browser.newPage()
     await page.setContent(plot)
     const chart = await page.waitForSelector('figure')
 
     await chart?.screenshot({ path: output as `${string}.${ImageFormat}` })
-    console.log(`Chart saved to '${output}'`)
+    console.log(`Chart saved to '${output}'. Shutting down...`)
     await browser.close()
 }
