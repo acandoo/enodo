@@ -52,7 +52,7 @@ export default async function createAuthorChart(
                 (a) => a.Name === author.name && a.Email === author.email
             )
             if (existingAuthor) {
-                existingAuthor.Commits += 1
+                existingAuthor.Commits++
             } else {
                 authors.push({
                     Name: author.name,
