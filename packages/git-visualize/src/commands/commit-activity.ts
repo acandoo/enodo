@@ -1,20 +1,10 @@
-import fs from 'node:fs'
-
-import {
-    CategoryScale,
-    Chart,
-    Colors,
-    LineController,
-    LineElement,
-    LinearScale,
-    PointElement,
-    SubTitle,
-    Title
-} from 'chart.js'
 import cliProgress from 'cli-progress'
-import { Canvas } from 'skia-canvas'
+import puppeteer, { type ImageFormat } from 'puppeteer'
 
-import { getRepoLog } from '../internal/git-utils.ts'
+import * as Plot from '@observablehq/plot'
+
+import { createHTMLChart } from '../internal/create-html-chart.ts'
+import { getRepoLog, prettyURL } from '../internal/git-utils.ts'
 
 export default async function createActivityChart(
     repos: string[],
@@ -23,6 +13,14 @@ export default async function createActivityChart(
     // Validate output file is a PNG
     if (!output.endsWith('.png')) {
         throw new Error('Output file must be a PNG')
+    }
+
+    // Validate output file is an allowed format
+    const allowedFormats: ImageFormat[] = ['png', 'jpeg', 'webp']
+    if (!allowedFormats.some((fmt) => output.endsWith(`.${fmt}`))) {
+        throw new Error(
+            `Output file must be one of: ${allowedFormats.map((f) => `.${f}`).join(', ')}`
+        )
     }
 
     // Ensure repos don't contain duplicates
@@ -38,113 +36,72 @@ export default async function createActivityChart(
         cliProgress.Presets.shades_classic
     )
     const results = await Promise.all(
-        repos.map(async (repo) => getRepoLog(repo, multibar))
+        repos.map((repo) => getRepoLog(repo, multibar))
     )
     multibar.stop()
-    // console.clear()
-    results.forEach((repo, index) => {
-        // Placeholder for processing each repository's commits
-        console.log(`Repository ${repos[index]} has ${repo.length} commits`)
-    })
-    const commitTimes = results.map((repo) =>
-        repo.map((commit) => ({
-            year: new Date(commit.commit.author.timestamp * 1000).getFullYear(),
-            month:
-                new Date(commit.commit.author.timestamp * 1000).getMonth() + 1
-        }))
-    )
+    console.clear()
 
-    // Reverse the commit times to have the most recent commits first
-    commitTimes.reverse()
-
-    // Year is the smallest "maximum" year across all repositories, minus the biggest "minimum" year
-    // All repositories are already sorted by year, so only the first element is needed
-    // If month is negative, decrease the year by 1
-
-    // this code is in serious need of refactoring
-    const range = {
-        year:
-            Math.min(...commitTimes.map((repo) => repo[0]?.year || Infinity)) -
-            Math.max(
-                ...commitTimes.map((repo) => repo.at(-1)?.year || -Infinity)
-            ),
-        month:
-            Math.min(...commitTimes.map((repo) => repo[0]?.month || Infinity)) -
-            Math.max(
-                ...commitTimes.map((repo) => repo.at(-1)?.month || -Infinity)
-            )
-    }
-    if (range.month < 0) {
-        range.year -= 1
-        range.month += 12
-    }
-
-    // const totalMonths = range.year * 12 + range.month
-
-    console.log('Date range:', range)
-
-    const width = 1920
-    const height = 1080
-
-    Chart.register(
-        CategoryScale,
-        Colors,
-        LinearScale,
-        LineController,
-        LineElement,
-        PointElement,
-        SubTitle,
-        Title
-    )
-
-    const canvas = new Canvas(width, height)
-    const chart = new Chart(canvas, {
-        type: 'line',
-        data: {
-            labels: results.map((_, index) => `Repo ${index + 1}`),
-            datasets: results.map((repo, index) => ({
-                label: repos[index],
-                data: repo.map((commit) => commit.commit.author.name.length)
-            }))
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                title: {
-                    display: true,
-                    text: 'Commit Activity Chart'
-                },
-                subtitle: {
-                    display: true,
-                    text: 'Activity across multiple repositories'
-                }
-            },
-            scales: {
-                x: {
-                    type: 'category',
-                    title: {
-                        display: true,
-                        text: 'Repositories'
-                    }
-                },
-                y: {
-                    title: {
-                        display: true,
-                        text: 'Number of Commits'
-                    },
-                    beginAtZero: true,
-                    ticks: {
-                        stepSize: 1,
-                        callback: (value) => value.toString()
-                    }
+    const commitTimes = results
+        .map((repo, index) => {
+            const repoCommits: {
+                Date: Date
+                Repo: string
+                Commits: number
+            }[] = []
+            const prettyRepo = prettyURL(repos[index]!)
+            for (const commit of repo) {
+                const d = new Date(commit.commit.author.timestamp * 1000)
+                const date = new Date(
+                    d.getUTCFullYear(),
+                    d.getUTCMonth(),
+                    d.getUTCDate()
+                )
+                const existingDate = repoCommits.find(
+                    (a) => a.Date.getTime() === date.getTime()
+                )
+                if (existingDate) {
+                    existingDate.Commits++
+                } else {
+                    repoCommits.push({
+                        Date: date,
+                        Commits: 1,
+                        // TODO figure out if there are any edge cases for this
+                        Repo: prettyRepo || repos[index]!
+                    })
                 }
             }
-        }
+            return repoCommits
+        })
+        .flat()
+
+    // Create a horizontal bar chart
+    const subtitleBeginning = repos.length === 1 ? 'Repository' : 'Repositories'
+
+    console.log('Creating chart...')
+    const plot = createHTMLChart({
+        title: `Commit Activity Chart`,
+        subtitle: `${subtitleBeginning}: ${repos.reduce(
+            (prev, curr) => `${prev}, ${curr}`
+        )}`,
+        grid: true,
+        color: { legend: true },
+        marks: [
+            Plot.ruleY([0]),
+            Plot.lineY(commitTimes, {
+                x: 'Date',
+                y: 'Commits',
+                stroke: 'Repo'
+            })
+        ]
     })
 
-    // Save chart as PNG
-    const pngBuffer = await canvas.toBuffer('png', { matte: 'white' })
-    await fs.promises.writeFile(output, pngBuffer)
-    console.log(`Chart saved to '${output}'`)
-    chart.destroy()
+    console.log('Rendering...')
+    const browser = await puppeteer.launch()
+    const page = await browser.newPage()
+    await page.setContent(plot)
+    const chart = await page.waitForSelector('figure')
+
+    await chart?.screenshot({ path: output as `${string}.${ImageFormat}` })
+    console.log(`Chart saved to '${output}'. Shutting down...`)
+    await browser.close()
 }

@@ -23,3 +23,7 @@ export async function getRepoLog(
     }
     return repoResult
 }
+
+export const prettyURL = (url: string) =>
+    // You really think I did this by hand?
+    url.match(/([^/:\s]+\/[^/\s?]+?)(?:\.git)?(?:\?[^/]*)?\/?\s*$/)?.at(1)
