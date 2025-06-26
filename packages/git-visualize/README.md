@@ -9,10 +9,10 @@ git-visualize is a CLI/library focused on creating visualizations for git reposi
 - [ ] prompt user if file already exists (use inquirer-js)
 - [ ] make all commands multi-repo options
 - [ ] cleaner, functional code
-- [ ] add tests
-- [ ] replace chart.js+skia-canvas with observable plot+puppeteer (300MB download wtfff)
+- [x] add tests
+- [x] replace chart.js+skia-canvas with observable plot+puppeteer (300MB download wtfff)
 - [ ] moar features
-    - [ ] commit activity over time (allow overlaying repos)
+    - [x] commit activity over time (allow overlaying repos)
     - [ ] detect if a contributor is "active" (analyze frequenccy/commit patterns of individual contributors)
     - [ ] file type distribution
     - [ ] LOC added/removed over time
