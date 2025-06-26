@@ -1,6 +1,6 @@
-# git-visualizer
+# enodo
 
-git-visualizer is an analysis suite built with TypeScript for the open source ecosystem. This repository is a monorepo currently housing two projects:
+enodo is an analysis suite built with Node and TypeScript for the open source ecosystem. This repository is a monorepo currently housing two projects:
 
 - `git-visualize` is a CLI/library focused on creating visualizations for git repositories.
 - `notebooks` is a data science app built with Observable Framework using `git-visualize` to tabulate data.
