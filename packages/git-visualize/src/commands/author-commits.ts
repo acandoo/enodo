@@ -21,7 +21,6 @@ export default async function createAuthorChart(
             `Output file must be one of: ${allowedFormats.map((f) => `.${f}`).join(', ')}`
         )
     }
-    const coerced = output as `${string}.${ImageFormat}`
 
     const multibar = new cliProgress.MultiBar(
         {
@@ -95,7 +94,7 @@ export default async function createAuthorChart(
     await page.setContent(plot)
     const chart = await page.waitForSelector('figure')
 
-    await chart?.screenshot({ path: coerced })
+    await chart?.screenshot({ path: output as `${string}.${ImageFormat}` })
     console.log(`Chart saved to '${output}'`)
     await browser.close()
 }
