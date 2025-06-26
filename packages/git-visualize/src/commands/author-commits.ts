@@ -75,9 +75,6 @@ export default async function createAuthorChart(
         title: `Commits per Author (top ${authors.length})`,
         subtitle: `Repository: ${repo}`,
         grid: true,
-        style: {
-            backgroundColor: '#ddddef'
-        },
         x: {
             tickFormat: (d) => (Number.isInteger(d) ? d : '')
         },
