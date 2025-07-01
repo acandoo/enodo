@@ -98,7 +98,7 @@ export default async function createActivityChart(
 
     console.log('Creating chart...')
     const plot = createHTMLChart({
-        title: `Commit Activity Chart`,
+        title: `Commit Activity Over Time`,
         subtitle: `${subtitleBeginning}: ${repos.join(', ')}`,
         grid: true,
         color: { legend: true },
