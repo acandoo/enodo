@@ -4,6 +4,3 @@ packages:
 
 onlyBuiltDependencies:
   - esbuild
-
-patchedDependencies:
-  isomorphic-git: patches/isomorphic-git.patch
