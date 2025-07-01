@@ -10,11 +10,6 @@ export default async function createActivityChart(
     repos: string[],
     output: string
 ): Promise<void> {
-    // Validate output file is a PNG
-    if (!output.endsWith('.png')) {
-        throw new Error('Output file must be a PNG')
-    }
-
     // Validate output file is an allowed format
     const allowedFormats: ImageFormat[] = ['png', 'jpeg', 'webp']
     if (!allowedFormats.some((fmt) => output.endsWith(`.${fmt}`))) {
