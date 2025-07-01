@@ -22,10 +22,16 @@
         "preinstall": "npx only-allow pnpm",
         "test": "tsx --test"
     },
-    "keywords": [],
+    "keywords": [
+        "git",
+        "chart",
+        "analyze",
+        "data science",
+        "cli",
+        "repository"
+    ],
     "author": "acandoo",
     "license": "ISC",
-    "packageManager": "pnpm@10.12.1",
     "devDependencies": {
         "pkgroll": "^2.13.1",
         "tsx": "^4.20.3"
