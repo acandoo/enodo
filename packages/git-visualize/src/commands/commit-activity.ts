@@ -108,6 +108,11 @@ export default async function createActivityChart(
                 x: 'Date',
                 y: 'Commits',
                 stroke: 'Repo'
+            }),
+            Plot.axisY({
+                anchor: 'left',
+                label: `Commits per ${safeAllowed}`,
+                labelAnchor: 'top'
             })
         ]
     })
