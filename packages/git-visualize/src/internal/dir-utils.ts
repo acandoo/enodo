@@ -14,10 +14,7 @@ export async function resolveRepoDir(
     if (URL.canParse(repo)) {
         const bar = multibar?.create(100, 0, {
             phase: 'Cloning',
-            repo,
-            percentage: 0,
-            value: 0,
-            total: 0
+            repo
         })
         // If a URL, clone the repo to a temp directory
         const dir = await fs.promises.mkdtemp(join(tmpdir(), 'repo-'))
