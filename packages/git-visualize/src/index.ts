@@ -32,8 +32,13 @@ program
     )
     .argument('<repos...>', 'Repository URL(s) or path(s)')
     .option('-o, --output <file>', 'Output PNG file', './commit-activity.png')
+    .option(
+        '-i, --interval <interval>',
+        'Aggregation interval: "day", "month", or "year"',
+        'month'
+    )
     .action(async (repos, options) => {
-        await createActivityChart(repos, options.output)
+        await createActivityChart(repos, options.output, options.interval)
     })
 
 program

@@ -8,7 +8,8 @@ import { getRepoLog, prettyURL } from '../internal/git-utils.ts'
 
 export default async function createActivityChart(
     repos: string[],
-    output: string
+    output: string,
+    interval: string
 ): Promise<void> {
     // Validate output file is an allowed format
     const allowedFormats: ImageFormat[] = ['png', 'jpeg', 'webp']
@@ -22,6 +23,17 @@ export default async function createActivityChart(
     if (new Set(repos).size !== repos.length) {
         throw new Error('Duplicate repositories found in the input array')
     }
+
+    // Handle interval option
+    // (this type definition is not confusing at all)
+    type AllowedIntervals = 'day' | 'month' | 'year'
+    const allowedIntervals: AllowedIntervals[] = ['day', 'month', 'year']
+    if (!allowedIntervals.includes(interval as AllowedIntervals)) {
+        throw new Error(
+            `Interval must be one of: ${allowedIntervals.map((f) => `"${f}"`).join(', ')}`
+        )
+    }
+    const safeAllowed = interval as AllowedIntervals
 
     const multibar = new cliProgress.MultiBar(
         {
@@ -46,11 +58,23 @@ export default async function createActivityChart(
             const prettyRepo = prettyURL(repos[index]!)
             for (const commit of repo) {
                 const d = new Date(commit.commit.author.timestamp * 1000)
-                const date = new Date(
-                    d.getUTCFullYear(),
-                    d.getUTCMonth(),
-                    d.getUTCDate()
-                )
+                let date: Date
+                if (safeAllowed === 'day') {
+                    date = new Date(
+                        Date.UTC(
+                            d.getUTCFullYear(),
+                            d.getUTCMonth(),
+                            d.getUTCDate()
+                        )
+                    )
+                } else if (safeAllowed === 'month') {
+                    date = new Date(
+                        Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), 1)
+                    )
+                } else {
+                    date = new Date(Date.UTC(d.getUTCFullYear(), 0, 1))
+                }
+
                 const existingDate = repoCommits.find(
                     (a) => a.Date.getTime() === date.getTime()
                 )
