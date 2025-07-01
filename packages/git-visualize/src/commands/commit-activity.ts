@@ -75,9 +75,7 @@ export default async function createActivityChart(
     console.log('Creating chart...')
     const plot = createHTMLChart({
         title: `Commit Activity Chart`,
-        subtitle: `${subtitleBeginning}: ${repos.reduce(
-            (prev, curr) => `${prev}, ${curr}`
-        )}`,
+        subtitle: `${subtitleBeginning}: ${repos.join(', ')}`,
         grid: true,
         color: { legend: true },
         marks: [
