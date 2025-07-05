@@ -2,7 +2,7 @@ import fs from 'node:fs'
 
 import { getRepoLog } from '../internal/git-utils.ts'
 
-export default async function createRawLog(
+export default async function rawLog(
     repo: string,
     output: string,
     pretty: boolean

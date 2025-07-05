@@ -6,7 +6,7 @@ import * as Plot from '@observablehq/plot'
 import { createHTMLChart } from '../internal/create-html-chart.ts'
 import { getRepoLog, prettyURL } from '../internal/git-utils.ts'
 
-export default async function createActivityChart(
+export default async function commitActivity(
     repos: string[],
     output: string,
     interval: string

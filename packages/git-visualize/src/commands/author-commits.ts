@@ -6,7 +6,7 @@ import * as Plot from '@observablehq/plot'
 import { createHTMLChart } from '../internal/create-html-chart.ts'
 import { getRepoLog } from '../internal/git-utils.ts'
 
-export default async function createAuthorChart(
+export default async function authorCommits(
     repo: string,
     output: string,
     max: string

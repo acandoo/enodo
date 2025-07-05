@@ -1,9 +1,9 @@
 import { program } from '@commander-js/extra-typings'
 
 import pkg from '../package.json' with { type: 'json' }
-import createAuthorChart from './commands/author-commits.ts'
-import createActivityChart from './commands/commit-activity.ts'
-import createRawLog from './commands/raw-log.ts'
+import authorCommits from './commands/author-commits.ts'
+import commitActivity from './commands/commit-activity.ts'
+import rawLog from './commands/raw-log.ts'
 
 program.name(pkg.name).description(pkg.description).version(pkg.version)
 
@@ -22,7 +22,7 @@ program
         '50'
     )
     .action(async (repo, options) => {
-        await createAuthorChart(repo, options.output, options.max)
+        await authorCommits(repo, options.output, options.max)
     })
 
 program
@@ -38,7 +38,7 @@ program
         'month'
     )
     .action(async (repos, options) => {
-        await createActivityChart(repos, options.output, options.interval)
+        await commitActivity(repos, options.output, options.interval)
     })
 
 program
@@ -48,7 +48,7 @@ program
     .option('-o, --output <file>', 'Output JSON file', './repo-log.json')
     .option('--pretty', 'Pretty print JSON output', false)
     .action(async (repo, options) => {
-        await createRawLog(repo, options.output, options.pretty)
+        await rawLog(repo, options.output, options.pretty)
     })
 
 program.parse()
