@@ -1,6 +1,7 @@
 **/node_modules
 **/dist
 **/repo
+**/author-activity.png
 **/commits-per-author.png
 **/commit-activity.png
 **/repo-log.json

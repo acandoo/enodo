@@ -1,6 +1,7 @@
 import { program } from '@commander-js/extra-typings'
 
 import pkg from '../package.json' with { type: 'json' }
+import authorActivity from './commands/author-activity.ts'
 import authorCommits from './commands/author-commits.ts'
 import commitActivity from './commands/commit-activity.ts'
 import rawLog from './commands/raw-log.ts'
@@ -49,6 +50,30 @@ program
     .option('--pretty', 'Pretty print JSON output', false)
     .action(async (repo, options) => {
         await rawLog(repo, options.output, options.pretty)
+    })
+
+program
+    .command('author-activity')
+    .description('Compare author activity over time for a repository')
+    .argument('<repo>', 'Repository URL(s) or path(s)')
+    .option('-o, --output <file>', 'Output PNG file', './author-activity.png')
+    .option(
+        '-m, --max <authors>',
+        'Maximum number of authors displayed in the graph',
+        '10'
+    )
+    .option(
+        '-i, --interval <interval>',
+        'Aggregation interval: "day", "month", or "year"',
+        'month'
+    )
+    .action(async (repo, options) => {
+        await authorActivity(
+            repo,
+            options.output,
+            options.max,
+            options.interval
+        )
     })
 
 program.parse()
