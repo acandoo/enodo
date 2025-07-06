@@ -42,6 +42,8 @@ export default async function authorCommits(
     type Author = {
         Name: string
         Email: string
+        _names: Set<string>
+        _emails: Set<string>
         Commits: number
     }
     const authors: Author[] = []
@@ -52,14 +54,18 @@ export default async function authorCommits(
         .forEach((author) => {
             // Check if author already exists in authors array
             const existingAuthor = authors.find(
-                (a) => a.Name === author.name && a.Email === author.email
+                (a) => a._names.has(author.name) || a._emails.has(author.email)
             )
             if (existingAuthor) {
+                existingAuthor._names.add(author.name)
+                existingAuthor._emails.add(author.email)
                 existingAuthor.Commits++
             } else {
                 authors.push({
                     Name: author.name,
                     Email: author.email,
+                    _names: new Set<string>().add(author.name),
+                    _emails: new Set<string>().add(author.email),
                     Commits: 1
                 })
             }
