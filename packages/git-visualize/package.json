@@ -38,6 +38,7 @@
     },
     "dependencies": {
         "@commander-js/extra-typings": "^14.0.0",
+        "@inquirer/confirm": "^5.1.13",
         "@observablehq/plot": "^0.6.17",
         "@types/cli-progress": "^3.11.6",
         "@types/jsdom": "^21.1.7",

@@ -1,6 +1,9 @@
+import fs from 'node:fs'
+
 import cliProgress from 'cli-progress'
 import puppeteer, { type ImageFormat } from 'puppeteer'
 
+import confirm from '@inquirer/confirm'
 import * as Plot from '@observablehq/plot'
 
 import { createHTMLChart } from '../internal/create-html-chart.ts'
@@ -118,7 +121,12 @@ export default async function authorActivity(
     await page.setContent(plot)
     const chart = await page.waitForSelector('figure')
 
-    await chart?.screenshot({ path: output as `${string}.${ImageFormat}` })
-    console.log(`Chart saved to '${output}'. Shutting down...`)
+    if (
+        fs.existsSync(output) &&
+        (await confirm({ message: `Would you like to overwrite ${output}?` }))
+    ) {
+        await chart?.screenshot({ path: output as `${string}.${ImageFormat}` })
+        console.log(`Chart saved to '${output}'. Shutting down...`)
+    }
     await browser.close()
 }

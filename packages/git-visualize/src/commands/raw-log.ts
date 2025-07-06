@@ -1,5 +1,7 @@
 import fs from 'node:fs'
 
+import confirm from '@inquirer/confirm'
+
 import { getRepoLog } from '../internal/git-utils.ts'
 
 export default async function rawLog(
@@ -13,10 +15,16 @@ export default async function rawLog(
     }
 
     const log = await getRepoLog(repo)
-    await fs.promises.writeFile(
-        output,
-        JSON.stringify(log, null, pretty ? 2 : 0)
-    )
 
-    console.log(`Raw log written to ${output}`)
+    if (
+        fs.existsSync(output) &&
+        (await confirm({ message: `Would you like to overwrite ${output}?` }))
+    ) {
+        await fs.promises.writeFile(
+            output,
+            JSON.stringify(log, null, pretty ? 2 : 0)
+        )
+
+        console.log(`Raw log written to ${output}`)
+    }
 }
