@@ -53,11 +53,14 @@ export default async function authorActivity(
     const authorCommits: {
         Date: Date
         Author: string
+        _names: Set<string>
+        _emails: Set<string>
         Commits: number
     }[] = []
 
     for (const entry of results) {
-        const author = entry.commit.author.name
+        const name = entry.commit.author.name
+        const email = entry.commit.author.email
         const d = new Date(entry.commit.author.timestamp * 1000)
         let date: Date
         if (safeAllowed === 'day') {
@@ -70,12 +73,23 @@ export default async function authorActivity(
             date = new Date(Date.UTC(d.getUTCFullYear(), 0, 1))
         }
         const existing = authorCommits.find(
-            (a) => a.Date.getTime() === date.getTime() && a.Author === author
+            (a) =>
+                a.Date.getTime() === date.getTime() &&
+                a._names.has(name) &&
+                a._emails.has(email)
         )
         if (existing) {
+            existing._names.add(name)
+            existing._emails.add(email)
             existing.Commits++
         } else {
-            authorCommits.push({ Date: date, Author: author, Commits: 1 })
+            authorCommits.push({
+                Date: date,
+                Author: name,
+                _names: new Set<string>().add(name),
+                _emails: new Set<string>().add(email),
+                Commits: 1
+            })
         }
     }
 
