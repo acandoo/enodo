@@ -76,6 +76,8 @@ export default async function authorActivity(
         }
     }
 
+    authorCommits.sort((a, b) => a.Date.getTime() - b.Date.getTime())
+
     // Only show top N authors by total commits
     const authorTotals: Record<string, number> = {}
     for (const a of authorCommits) {

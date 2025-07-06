@@ -89,6 +89,7 @@ export default async function commitActivity(
                     })
                 }
             }
+            repoCommits.sort((a, b) => a.Date.getTime() - b.Date.getTime())
             return repoCommits
         })
         .flat()
