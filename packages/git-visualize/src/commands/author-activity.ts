@@ -136,8 +136,11 @@ export default async function authorActivity(
     const chart = await page.waitForSelector('figure')
 
     if (
-        fs.existsSync(output) &&
-        (await confirm({ message: `Would you like to overwrite ${output}?` }))
+        (fs.existsSync(output) &&
+            (await confirm({
+                message: `Would you like to overwrite ${output}?`
+            }))) ||
+        !fs.existsSync(output)
     ) {
         await chart?.screenshot({ path: output as `${string}.${ImageFormat}` })
         console.log(`Chart saved to '${output}'. Shutting down...`)
