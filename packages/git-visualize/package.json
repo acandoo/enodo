@@ -1,7 +1,7 @@
 {
     "name": "git-visualize",
     "type": "module",
-    "version": "0.1.1",
+    "version": "0.1.2",
     "description": "A CLI tool to visualize git repositories.",
     "homepage": "https://github.com/acandoo/enodo/tree/main/packages/git-visualize#readme",
     "bugs": {
