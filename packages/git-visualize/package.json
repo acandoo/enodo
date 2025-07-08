@@ -45,7 +45,7 @@
     "author": "acandoo",
     "license": "ISC",
     "devDependencies": {
-        "pkgroll": "^2.13.1",
+        "pkgroll": "^2.14.0",
         "tsx": "^4.20.3"
     },
     "dependencies": {
@@ -59,7 +59,7 @@
         "commander": "^14.0.0",
         "isomorphic-git": "^1.32.1",
         "jsdom": "^26.1.0",
-        "puppeteer": "^24.11.2",
+        "puppeteer": "^24.12.0",
         "skia-canvas": "^2.0.2"
     }
 }

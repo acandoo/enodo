@@ -39,15 +39,15 @@ importers:
         specifier: ^26.1.0
         version: 26.1.0
       puppeteer:
-        specifier: ^24.11.1
-        version: 24.11.1
+        specifier: ^24.12.0
+        version: 24.12.0
       skia-canvas:
         specifier: ^2.0.2
         version: 2.0.2
     devDependencies:
       pkgroll:
-        specifier: ^2.13.1
-        version: 2.13.1
+        specifier: ^2.14.0
+        version: 2.14.0
       tsx:
         specifier: ^4.20.3
         version: 4.20.3
@@ -1309,8 +1309,8 @@ packages:
     resolution: {integrity: sha512-uB80kBFb/tfd68bVleG9T5GGsGPjJrLAUpR5PZIrhBnIaRTQRjqdJSsIKkOP6OAIFbj7GOrcudc5pNjZ+geV2g==}
     engines: {node: '>=6'}
 
-  pkgroll@2.13.1:
-    resolution: {integrity: sha512-SO50Oh3ycFUI26n5au3Iq/XhC1x8garmmaIF5m/8f+s8ntUWC9oZONlz0rjT12OSfY3gCkc564t3HWvuClzQNg==}
+  pkgroll@2.14.0:
+    resolution: {integrity: sha512-RWH6luyVKvbKpd4ecNZoR/MYXaGzHLa2xBU3R338B8BMJXjds0ZZa1wV+XciaDdG4ZXl8J3L6lF3fhqL26rs/A==}
     engines: {node: '>=18'}
     hasBin: true
     peerDependencies:
@@ -1337,12 +1337,12 @@ packages:
     resolution: {integrity: sha512-vYt7UD1U9Wg6138shLtLOvdAu+8DsC/ilFtEVHcH+wydcSpNE20AfSOduf6MkRFahL5FY7X1oU7nKVZFtfq8Fg==}
     engines: {node: '>=6'}
 
-  puppeteer-core@24.11.1:
-    resolution: {integrity: sha512-I0Gv3jWBRY9E3NTBElp7br7Gaid5RbFTxCRRMHym1kCf0ompO0Pel4REGsGDwMWkg3uwFzIH7t7qXs3T4DKRWA==}
+  puppeteer-core@24.12.0:
+    resolution: {integrity: sha512-VrPXPho5Q90Ao86FwJVb+JeAF2Tf41wOTGg8k2SyQJePiJ6hJ5iujYpmP+bmhlb6o+J26bQYRDPOYXP7ALWcxQ==}
     engines: {node: '>=18'}
 
-  puppeteer@24.11.1:
-    resolution: {integrity: sha512-QbccB/LgxX4tSZRzr9KQ1Jajdvu3n35Dlf/Otjz0QfR+6mDoZdMWLcWF94uQoC3OJerCyYm5hlU2Ru4nBoId2A==}
+  puppeteer@24.12.0:
+    resolution: {integrity: sha512-MJtM71qex8h03bDBZTyPfSC7tfvDLILnWWl4rNdo3+HODiFZX+3yj/qLVwVu/gXoxQ7U8dNDKyFz4e8VBHdcmw==}
     engines: {node: '>=18'}
     hasBin: true
 
@@ -2804,7 +2804,7 @@ snapshots:
 
   pify@4.0.1: {}
 
-  pkgroll@2.13.1:
+  pkgroll@2.14.0:
     dependencies:
       '@rollup/plugin-alias': 5.1.1(rollup@4.44.1)
       '@rollup/plugin-commonjs': 28.0.6(rollup@4.44.1)
@@ -2842,7 +2842,7 @@ snapshots:
 
   punycode@2.3.1: {}
 
-  puppeteer-core@24.11.1:
+  puppeteer-core@24.12.0:
     dependencies:
       '@puppeteer/browsers': 2.10.5
       chromium-bidi: 5.1.0(devtools-protocol@0.0.1464554)
@@ -2856,13 +2856,13 @@ snapshots:
       - supports-color
       - utf-8-validate
 
-  puppeteer@24.11.1:
+  puppeteer@24.12.0:
     dependencies:
       '@puppeteer/browsers': 2.10.5
       chromium-bidi: 5.1.0(devtools-protocol@0.0.1464554)
       cosmiconfig: 9.0.0
       devtools-protocol: 0.0.1464554
-      puppeteer-core: 24.11.1
+      puppeteer-core: 24.12.0
       typed-query-selector: 2.12.0
     transitivePeerDependencies:
       - bare-buffer
