@@ -55,7 +55,7 @@ program
 program
     .command('author-activity')
     .description('Compare author activity over time for a repository')
-    .argument('<repo>', 'Repository URL(s) or path(s)')
+    .argument('<repo>', 'Repository URL or path')
     .option('-o, --output <file>', 'Output PNG file', './author-activity.png')
     .option(
         '-m, --max <authors>',
