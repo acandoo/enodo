@@ -12,7 +12,8 @@ import { getRepoLog } from '../internal/git-utils.ts'
 export default async function authorCommits(
     repo: string,
     output: string,
-    max: string
+    max: string,
+    filepath?: string
 ): Promise<void> {
     // Set maxEntries
     const maxEntries = parseInt(max, 10)
@@ -34,7 +35,7 @@ export default async function authorCommits(
     )
 
     // Get all commits
-    const results = await getRepoLog(repo, multibar)
+    const results = await getRepoLog(repo, multibar, { filepath })
 
     multibar.stop()
     console.clear()

@@ -13,7 +13,8 @@ export default async function authorActivity(
     repo: string,
     output: string,
     max: string,
-    interval: string
+    interval: string,
+    filepath?: string
 ): Promise<void> {
     // Set maxEntries
     const maxEntries = parseInt(max, 10)
@@ -45,7 +46,7 @@ export default async function authorActivity(
     )
 
     // Get all commits
-    const results = await getRepoLog(repo, multibar)
+    const results = await getRepoLog(repo, multibar, { filepath })
     multibar.stop()
     console.clear()
 

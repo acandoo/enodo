@@ -7,14 +7,15 @@ import { getRepoLog } from '../internal/git-utils.ts'
 export default async function rawLog(
     repo: string,
     output: string,
-    pretty: boolean
+    pretty: boolean,
+    filepath?: string
 ): Promise<void> {
     // Validate output file is a JSON
     if (!output.endsWith('.json')) {
         throw new Error('Output file must be a JSON')
     }
 
-    const log = await getRepoLog(repo)
+    const log = await getRepoLog(repo, undefined, { filepath })
 
     if (
         fs.existsSync(output) &&

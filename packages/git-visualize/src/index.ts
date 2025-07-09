@@ -22,8 +22,9 @@ program
         'Maximum number of authors displayed in the graph',
         '50'
     )
+    .option('-d, --dir <dir>', 'Directory within the repo to track')
     .action(async (repo, options) => {
-        await authorCommits(repo, options.output, options.max)
+        await authorCommits(repo, options.output, options.max, options.dir)
     })
 
 program
@@ -38,8 +39,14 @@ program
         'Aggregation interval: "day", "month", or "year"',
         'month'
     )
+    .option('-d, --dir <dir>', 'Directory within the repo to track')
     .action(async (repos, options) => {
-        await commitActivity(repos, options.output, options.interval)
+        await commitActivity(
+            repos,
+            options.output,
+            options.interval,
+            options.dir
+        )
     })
 
 program
@@ -48,8 +55,9 @@ program
     .argument('<repo>', 'Repository URL or path')
     .option('-o, --output <file>', 'Output JSON file', './repo-log.json')
     .option('--pretty', 'Pretty print JSON output', false)
+    .option('-d, --dir <dir>', 'Directory within the repo to track')
     .action(async (repo, options) => {
-        await rawLog(repo, options.output, options.pretty)
+        await rawLog(repo, options.output, options.pretty, options.dir)
     })
 
 program
@@ -67,12 +75,14 @@ program
         'Aggregation interval: "day", "month", or "year"',
         'month'
     )
+    .option('-d, --dir <dir>', 'Directory within the repo to track')
     .action(async (repo, options) => {
         await authorActivity(
             repo,
             options.output,
             options.max,
-            options.interval
+            options.interval,
+            options.dir
         )
     })
 

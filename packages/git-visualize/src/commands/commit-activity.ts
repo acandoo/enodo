@@ -12,7 +12,8 @@ import { getRepoLog, prettyURL } from '../internal/git-utils.ts'
 export default async function commitActivity(
     repos: string[],
     output: string,
-    interval: string
+    interval: string,
+    filepath?: string
 ): Promise<void> {
     // Validate output file is an allowed format
     const allowedFormats: ImageFormat[] = ['png', 'jpeg', 'webp']
@@ -46,7 +47,7 @@ export default async function commitActivity(
         cliProgress.Presets.shades_classic
     )
     const results = await Promise.all(
-        repos.map((repo) => getRepoLog(repo, multibar))
+        repos.map((repo) => getRepoLog(repo, multibar, { filepath }))
     )
     multibar.stop()
     console.clear()

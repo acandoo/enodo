@@ -7,7 +7,17 @@ import { cleanup, resolveRepoDir } from './dir-utils.ts'
 
 export async function getRepoLog(
     repo: string,
-    multibar?: MultiBar
+    multibar?: MultiBar,
+    logConfig?: {
+        gitdir?: string | undefined
+        filepath?: string | undefined
+        ref?: string | undefined
+        depth?: number | undefined
+        since?: Date | undefined
+        force?: boolean | undefined
+        follow?: boolean | undefined
+        cache?: object
+    }
 ): Promise<ReadCommitResult[]> {
     // Check if repo is a valid URL or a local path
     const dir = await resolveRepoDir(repo, multibar)
@@ -15,7 +25,8 @@ export async function getRepoLog(
     // Get all commits
     const repoResult = await git.log({
         fs,
-        dir
+        dir,
+        ...logConfig
     })
 
     if (URL.canParse(repo)) {
