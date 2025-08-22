@@ -31,7 +31,6 @@
         "dev": "tsx src/index.ts",
         "build": "pkgroll --minify",
         "start": "node dist/index.js",
-        "preinstall": "npx only-allow pnpm",
         "test": "tsx --test"
     },
     "keywords": [
