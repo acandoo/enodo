@@ -45,21 +45,21 @@
     "author": "acandoo",
     "license": "ISC",
     "devDependencies": {
-        "pkgroll": "^2.14.0",
-        "tsx": "^4.20.3"
+        "pkgroll": "^2.15.3",
+        "tsx": "^4.20.4"
     },
     "dependencies": {
         "@commander-js/extra-typings": "^14.0.0",
-        "@inquirer/confirm": "^5.1.13",
+        "@inquirer/confirm": "^5.1.15",
         "@observablehq/plot": "^0.6.17",
         "@types/cli-progress": "^3.11.6",
         "@types/jsdom": "^21.1.7",
         "chart.js": "^4.5.0",
         "cli-progress": "^3.12.0",
         "commander": "^14.0.0",
-        "isomorphic-git": "^1.32.1",
+        "isomorphic-git": "^1.33.0",
         "jsdom": "^26.1.0",
-        "puppeteer": "^24.12.0",
+        "puppeteer": "^24.17.0",
         "skia-canvas": "^2.0.2"
     }
 }
