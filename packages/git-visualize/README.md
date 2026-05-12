@@ -25,6 +25,7 @@ Commands:
   commit-activity [options] <repos...>  Compare commit activity over time across multiple repositories
   raw-log [options] <repo>              Get raw JSON commit log for a repository
   author-activity [options] <repo>      Compare author activity over time for a repository
+  repo-metrics [options] <repo>         Get 90-day repository activity metrics as JSON
   help [command]                        display help for command
 ```
 

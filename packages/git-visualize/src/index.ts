@@ -5,6 +5,7 @@ import authorActivity from './commands/author-activity.ts'
 import authorCommits from './commands/author-commits.ts'
 import commitActivity from './commands/commit-activity.ts'
 import rawLog from './commands/raw-log.ts'
+import repoMetrics from './commands/repo-metrics.ts'
 
 program.name(pkg.name).description(pkg.description).version(pkg.version)
 
@@ -74,6 +75,16 @@ program
             options.max,
             options.interval
         )
+    })
+
+program
+    .command('repo-metrics')
+    .description('Get 90-day repository activity metrics as JSON')
+    .argument('<repo>', 'Repository URL or path')
+    .option('-o, --output <file>', 'Output JSON file', './repo-metrics-90d.json')
+    .option('--pretty', 'Pretty print JSON output', false)
+    .action(async (repo, options) => {
+        await repoMetrics(repo, options.output, options.pretty)
     })
 
 program.parse()
