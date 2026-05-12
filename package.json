@@ -33,5 +33,10 @@
         "tsx": "^4.20.4",
         "typescript": "^5.9.2",
         "typescript-eslint": "^8.40.0"
+    },
+    "dependencies": {
+        "csv-parse": "^6.2.1",
+        "csv-stringify": "^6.7.0",
+        "ml-kmeans": "^7.0.0"
     }
 }
