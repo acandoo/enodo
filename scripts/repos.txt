@@ -7,7 +7,7 @@ openssh/openssh-portable
 libressl-portable/portable
 madler/zlib
 libexpat/libexpat
-besser82/libffi
+libffi/libffi
 kubernetes/kubernetes
 prometheus/prometheus
 hashicorp/terraform
