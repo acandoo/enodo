@@ -10,7 +10,7 @@ export default async function repoMetrics(
     pretty: boolean
 ): Promise<void> {
     if (!output.endsWith('.json')) {
-        throw new Error('Output file must be a JSON')
+        throw new Error('Output file must have a .json extension')
     }
 
     if (
