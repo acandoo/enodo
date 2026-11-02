@@ -5,6 +5,8 @@ enodo is an analysis suite built with Node and TypeScript for the open source ec
 - `git-visualize` is a CLI/library focused on creating visualizations for git repositories.
 - `notebooks` is a data science app built with Observable Framework using `git-visualize` to tabulate data.
 
+This repository was worked on for Hack Club's 2025 Summer of Making hackathon program.
+
 ### Repository Structure
 
 ```text
@@ -48,3 +50,5 @@ My goals for this project were to learn the interfaces/APIs of Node and popular 
 - parsing error messages and resolving them
 - automatically resolving type errors
 - explaining APIs
+
+Later branches used agentic AI for certain features to quickly use for an in-class project, but the CLI published on NPM does not contain any agentic AI-generated code.
